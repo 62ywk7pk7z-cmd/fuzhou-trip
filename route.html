@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>闽粤沿海美食之旅 · 9天5城攻略</title>
+<style>
+/* ============ 基础 & 蓝色调变量 ============ */
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --b900:#1e3a5f; --b800:#1e40af; --b700:#1d4ed8; --b600:#2563eb;
+  --b500:#3b82f6; --b400:#60a5fa; --b300:#93c5fd; --b200:#bfdbfe;
+  --b100:#dbeafe; --b50:#eff6ff; --white:#fff;
+  --text:#0f172a; --text2:#475569; --text3:#94a3b8;
+  --gold:#f59e0b; --red:#ef4444; --amber:#f97316; --green:#10b981;
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.04);
+  --shadow:0 4px 16px rgba(0,0,0,0.06),0 1px 3px rgba(0,0,0,0.04);
+  --shadow-lg:0 12px 32px rgba(0,0,0,0.08),0 2px 6px rgba(0,0,0,0.04);
+  --shadow-xl:0 20px 48px rgba(0,0,0,0.10);
+  --radius:18px; --radius-sm:12px;
+  --transition:0.3s cubic-bezier(0.4,0,0.2,1);
+}
+html { scroll-behavior:smooth; scroll-padding-top:80px; }
+body {
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  background:linear-gradient(175deg,#f0f7ff 0%,#eff6ff 25%,#dbeafe 55%,#eff6ff 100%);
+  color:var(--text); line-height:1.7; min-height:100vh; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+/* 背景光晕 */
+body::before,body::after {
+  content:''; position:fixed; border-radius:50%; pointer-events:none; z-index:0;
+}
+body::before { top:-300px; right:-250px; width:800px; height:800px; background:radial-gradient(circle,rgba(59,130,246,0.08) 0%,transparent 70%); }
+body::after { bottom:-250px; left:-200px; width:700px; height:700px; background:radial-gradient(circle,rgba(96,165,250,0.06) 0%,transparent 70%); }
+
+/* ============ 玻璃导航 ============ */
+.nav {
+  position:fixed; top:0; left:0; right:0; z-index:1000;
+  background:rgba(255,255,255,0.7); backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid rgba(147,197,253,0.2); padding:0 20px;
+  transition:box-shadow 0.3s;
+}
+.nav.scrolled { box-shadow:0 2px 20px rgba(0,0,0,0.06); }
+.nav-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:62px; }
+.nav-logo {
+  font-size:20px; font-weight:700;
+  background:linear-gradient(135deg,var(--b700),var(--b500));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text; letter-spacing:1px;
+}
+.nav-links { display:flex; gap:2px; list-style:none; }
+.nav-links a {
+  text-decoration:none; color:var(--text2);
+  padding:8px 14px; border-radius:22px; font-size:13px; font-weight:500;
+  transition:all 0.25s; white-space:nowrap;
+}
+.nav-links a:hover { color:var(--b600); background:var(--b50); }
+.nav-links a.active { background:var(--b600); color:white; box-shadow:0 4px 12px rgba(37,99,235,0.3); }
+.menu-btn { display:none; background:none; border:none; font-size:26px; cursor:pointer; color:var(--b600); }
+
+/* ============ 主体 ============ */
+.main { max-width:1100px; margin:0 auto; padding:92px 24px 48px; position:relative; z-index:1; }
+.section { margin-bottom:60px; }
+
+/* ============ 板块标题 ============ */
+.section-header { text-align:center; margin-bottom:32px; }
+.section-badge {
+  display:inline-block; padding:5px 18px;
+  background:linear-gradient(135deg,var(--b100),var(--b200));
+  border-radius:20px; font-size:11px; font-weight:700;
+  color:var(--b600); letter-spacing:2px; margin-bottom:10px;
+}
+.section-icon { font-size:44px; display:block; margin-bottom:8px; }
+.section-title {
+  font-size:30px; font-weight:800;
+  background:linear-gradient(135deg,var(--b800),var(--b500));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.section-subtitle { font-size:15px; color:var(--text2); margin-top:6px; }
+
+/* ============ 卡片网格 ============ */
+.card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:22px; }
+@media(max-width:400px){.card-grid{grid-template-columns:1fr;}}
+
+/* ============ 通用卡片 ============ */
+.card {
+  background:var(--white); border-radius:var(--radius);
+  padding:26px; box-shadow:var(--shadow-sm);
+  border:1px solid rgba(191,219,254,0.2);
+  transition:all var(--transition); position:relative; overflow:hidden;
+}
+.card::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--b500),var(--b400),var(--b300));
+  transform:scaleX(0); transform-origin:left;
+  transition:transform 0.4s ease;
+}
+.card:hover::after { transform:scaleX(1); }
+.card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:var(--b300); }
+.card.clickable { cursor:pointer; }
+.card.clickable:hover { box-shadow:var(--shadow-xl); }
+
+/* ============ Hero ============ */
+.hero {
+  position:relative; overflow:hidden;
+  background:linear-gradient(135deg,#0f2b4a 0%,#1a4a7a 25%,#1e5a9e 50%,#2563eb 75%,#3b82f6 100%);
+  border-radius:24px; padding:52px 40px; margin-bottom:48px;
+  color:white; text-align:center;
+  box-shadow:0 20px 60px rgba(30,64,175,0.2);
+}
+.hero::before { content:''; position:absolute; top:-120px; right:-100px; width:350px; height:350px; border-radius:50%; background:rgba(255,255,255,0.04); }
+.hero::after { content:''; position:absolute; bottom:-60px; left:-60px; width:220px; height:220px; border-radius:50%; background:rgba(255,255,255,0.03); }
+.hero>* { position:relative; z-index:1; }
+.hero-badge {
+  display:inline-block; padding:6px 20px;
+  background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25);
+  border-radius:20px; font-size:12px; letter-spacing:3px;
+  backdrop-filter:blur(8px); margin-bottom:14px;
+}
+.hero-title { font-size:42px; font-weight:800; letter-spacing:4px; text-shadow:0 2px 20px rgba(0,0,0,0.1); }
+.hero-route { font-size:17px; opacity:0.9; margin:8px 0; letter-spacing:2px; font-weight:400; }
+.hero-info { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; margin-top:22px; }
+.hero-info-item {
+  background:rgba(255,255,255,0.15); padding:12px 24px; border-radius:32px;
+  font-size:14px; backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.2);
+  display:flex; align-items:center; gap:8px;
+}
+.hero-info-item strong { font-size:18px; }
+
+/* ============ 台风警告 ============ */
+.typhoon-alert {
+  margin-top:22px; background:rgba(254,243,199,0.95); color:#92400e;
+  padding:16px 22px; border-radius:16px; font-size:14px;
+  display:flex; align-items:flex-start; gap:14px; text-align:left;
+  border:1px solid #fcd34d;
+}
+.typhoon-alert .alert-icon { font-size:32px; flex-shrink:0; }
+.typhoon-alert .alert-content h4 { font-size:16px; margin-bottom:4px; }
+.typhoon-alert .alert-content p { font-size:13px; line-height:1.6; opacity:0.9; }
+
+/* ============ 行程总览 ============ */
+.route-overview {
+  background:var(--white); border-radius:var(--radius);
+  padding:28px 24px; box-shadow:var(--shadow);
+  border:1px solid rgba(191,219,254,0.15);
+}
+.route-flow { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:6px; padding:10px 0; }
+.route-node {
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  padding:14px 18px; background:var(--b50); border-radius:16px;
+  min-width:90px; transition:all 0.3s; border:2px solid transparent;
+}
+.route-node:hover { border-color:var(--b400); transform:translateY(-3px); box-shadow:var(--shadow); }
+.route-node .rn-day { font-size:11px; font-weight:700; color:var(--b500); }
+.route-node .rn-city { font-size:16px; font-weight:700; color:var(--b800); }
+.route-node .rn-icon { font-size:24px; }
+.route-node .rn-date { font-size:11px; color:var(--text3); }
+.route-arrow-node { font-size:20px; color:var(--b300); font-weight:700; }
+
+/* ============ 每日行程卡片 ============ */
+.day-card {
+  background:var(--white); border-radius:var(--radius);
+  margin-bottom:16px; box-shadow:var(--shadow-sm);
+  border:1px solid rgba(191,219,254,0.12); overflow:hidden;
+  transition:all 0.35s ease;
+}
+.day-card:hover { box-shadow:var(--shadow); }
+.day-card-header {
+  display:flex; align-items:center; gap:14px; padding:18px 24px;
+  cursor:pointer; user-select:none; transition:background 0.2s;
+}
+.day-card-header:hover { background:var(--b50); }
+.day-card-header .day-num {
+  width:48px; height:48px; border-radius:14px; display:flex;
+  align-items:center; justify-content:center;
+  font-size:20px; font-weight:900; color:white; flex-shrink:0;
+  background:linear-gradient(135deg,var(--b600),var(--b500));
+}
+.day-card-header .day-num.special { background:linear-gradient(135deg,#f59e0b,#f97316); }
+.day-card-header .day-info { flex:1; }
+.day-card-header .day-label { font-size:13px; font-weight:700; color:var(--b500); letter-spacing:1px; }
+.day-card-header .day-title { font-size:18px; font-weight:700; color:var(--b800); }
+.day-card-header .day-meta { font-size:13px; color:var(--text2); margin-top:2px; }
+.day-card-header .day-expand {
+  font-size:20px; color:var(--b400); transition:transform 0.3s;
+  width:32px; height:32px; display:flex; align-items:center; justify-content:center;
+  background:var(--b50); border-radius:50%;
+}
+.day-card.open .day-expand { transform:rotate(180deg); background:var(--b100); }
+.day-card-body { display:none; padding:0 24px 20px; border-top:1px solid var(--b50); }
+.day-card.open .day-card-body { display:block; animation:fadeSlide 0.35s ease; }
+@keyframes fadeSlide { from{opacity:0;transform:translateY(-8px);} to{opacity:1;transform:translateY(0);} }
+.day-card-body .schedule-table { width:100%; border-collapse:collapse; }
+.day-card-body .schedule-table td { padding:10px 12px; font-size:14px; border-bottom:1px solid var(--b50); vertical-align:top; }
+.day-card-body .schedule-table td:first-child { width:100px; font-weight:700; color:var(--b600); white-space:nowrap; font-size:13px; }
+.day-card-body .schedule-table td:last-child { color:var(--text2); line-height:1.6; }
+.day-card-body .schedule-table tr:last-child td { border-bottom:none; }
+.day-food-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+.food-tag { padding:5px 12px; border-radius:14px; font-size:12px; font-weight:600; background:#fef3c7; color:#92400e; }
+.transport-tag { background:#dbeafe; color:#1e40af; }
+.hotel-tag { background:#e0e7ff; color:#3730a3; }
+
+/* 南澳浮动日标记 */
+.nanao-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  background:linear-gradient(135deg,#fef3c7,#fde68a);
+  color:#92400e; padding:6px 14px; border-radius:20px;
+  font-size:12px; font-weight:700; border:2px solid #fbbf24;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,0.4);} 50%{box-shadow:0 0 0 10px rgba(245,158,11,0);} }
+
+/* ============ 美食地图 ============ */
+.city-food-section { margin-bottom:32px; }
+.city-food-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+.city-food-icon { font-size:36px; }
+.city-food-name { font-size:22px; font-weight:800; color:var(--b800); }
+.city-food-sub { font-size:14px; color:var(--text2); }
+.food-table { width:100%; background:var(--white); border-radius:var(--radius-sm); overflow:hidden; box-shadow:var(--shadow-sm); border:1px solid rgba(191,219,254,0.1); }
+.food-table th { background:linear-gradient(135deg,var(--b100),var(--b200)); color:var(--b700); font-size:13px; font-weight:700; padding:12px 14px; text-align:left; }
+.food-table td { padding:12px 14px; font-size:14px; border-bottom:1px solid var(--b50); color:var(--text2); }
+.food-table td:first-child { font-weight:700; color:var(--b800); }
+.food-table td:nth-child(3) { font-weight:600; color:var(--b600); }
+.food-table tr:last-child td { border-bottom:none; }
+.food-table tbody tr:hover { background:var(--b50); }
+
+/* ============ 南澳岛专题 ============ */
+.nanao-spotlight {
+  background:linear-gradient(135deg,#0c4a6e,#0369a1,#0284c7);
+  border-radius:var(--radius); padding:36px 30px; color:white;
+  box-shadow:0 16px 48px rgba(2,132,199,0.18); margin-bottom:20px;
+}
+.nanao-spotlight h3 { font-size:24px; margin-bottom:6px; }
+.nanao-spotlight .weather-req {
+  display:flex; align-items:center; gap:12px; margin:16px 0;
+  background:rgba(255,255,255,0.12); padding:14px 20px; border-radius:16px;
+  border:1px solid rgba(255,255,255,0.18);
+}
+.nanao-spotlight .weather-req .req-icon { font-size:36px; }
+.nanao-spotlight .weather-req .req-text { font-size:15px; line-height:1.6; }
+.nanao-spotlight .weather-req strong { color:#fbbf24; }
+.nanao-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; margin-top:20px; }
+.nanao-card {
+  background:rgba(255,255,255,0.08); border-radius:14px; padding:18px;
+  border:1px solid rgba(255,255,255,0.12); transition:all 0.3s;
+}
+.nanao-card:hover { background:rgba(255,255,255,0.14); transform:translateY(-2px); }
+.nanao-card h4 { font-size:16px; margin-bottom:6px; }
+.nanao-card p { font-size:13px; opacity:0.9; line-height:1.6; }
+
+/* ============ 应急方案 ============ */
+.emergency-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; }
+.emergency-card {
+  background:var(--white); border-radius:var(--radius-sm); padding:20px;
+  box-shadow:var(--shadow-sm); border-left:3px solid var(--amber);
+  transition:all 0.3s;
+}
+.emergency-card:hover { box-shadow:var(--shadow); transform:translateY(-2px); }
+.emergency-card h4 { font-size:16px; color:var(--b800); margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+.emergency-card p { font-size:13px; color:var(--text2); line-height:1.6; }
+
+/* ============ 交通表 ============ */
+.trans-table { width:100%; background:var(--white); border-radius:var(--radius-sm); overflow:hidden; box-shadow:var(--shadow-sm); border:1px solid rgba(191,219,254,0.1); }
+.trans-table th { background:linear-gradient(135deg,var(--b100),var(--b200)); color:var(--b700); padding:10px 14px; text-align:left; font-size:13px; }
+.trans-table td { padding:10px 14px; font-size:13px; border-bottom:1px solid var(--b50); color:var(--text2); }
+.trans-table tbody tr:hover { background:var(--b50); }
+
+/* ============ 天气板块 ============ */
+.weather-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(165px,1fr)); gap:14px; }
+.weather-card {
+  background:var(--white); border-radius:var(--radius);
+  padding:20px 16px; text-align:center;
+  box-shadow:var(--shadow-sm); border:1px solid rgba(191,219,254,0.1);
+  transition:all 0.3s;
+}
+.weather-card:hover { transform:translateY(-3px); box-shadow:var(--shadow); }
+.weather-card .w-city { font-size:14px; font-weight:700; color:var(--b500); margin-bottom:6px; }
+.weather-card .w-icon { font-size:36px; margin:6px 0; }
+.weather-card .w-temp { font-size:24px; font-weight:800; color:var(--b800); }
+.weather-card .w-desc { font-size:13px; color:var(--text2); margin-top:4px; }
+.weather-card .w-tip {
+  font-size:11px; color:var(--b600); margin-top:8px;
+  padding:5px 8px; background:var(--b50); border-radius:12px; line-height:1.4;
+}
+.weather-card.nanao-best { border:2px solid #f59e0b; box-shadow:0 0 0 4px rgba(245,158,11,0.08); position:relative; }
+.weather-card.nanao-best::after { content:'🏖️推荐'; position:absolute; top:8px; right:10px; font-size:10px; font-weight:700; color:#f59e0b; }
+.weather-advice-card {
+  background:var(--white); border-radius:var(--radius); padding:24px;
+  box-shadow:var(--shadow-sm); border:1px solid rgba(191,219,254,0.15);
+}
+.weather-advice-card h4 { font-size:16px; font-weight:700; color:var(--b700); margin-bottom:10px; }
+.weather-advice-card p { font-size:14px; color:var(--text2); line-height:1.7; }
+.weather-advice-card .advice-good { color:#059669; font-weight:600; }
+.weather-advice-card .advice-bad { color:#dc2626; font-weight:600; }
+@media(max-width:768px){ .weather-grid{grid-template-columns:repeat(3,1fr);} }
+@media(max-width:480px){ .weather-grid{grid-template-columns:repeat(2,1fr);} }
+
+/* ============ 页脚 ============ */
+.footer { text-align:center; padding:48px 20px; color:var(--text3); font-size:13px; position:relative; z-index:1; }
+
+/* ============ 回到顶部 ============ */
+.back-to-top {
+  position:fixed; bottom:30px; right:30px; z-index:999;
+  width:44px; height:44px; border-radius:50%;
+  background:linear-gradient(135deg,var(--b600),var(--b500));
+  color:white; border:none; font-size:20px; cursor:pointer;
+  box-shadow:0 6px 20px rgba(37,99,235,0.3);
+  transition:all 0.3s; opacity:0; pointer-events:none; transform:translateY(10px);
+}
+.back-to-top.visible { opacity:1; pointer-events:auto; transform:translateY(0); }
+.back-to-top:hover { transform:translateY(-4px); box-shadow:0 10px 28px rgba(37,99,235,0.4); }
+
+/* ============ 响应式 ============ */
+@media(max-width:768px){
+  .nav-links { display:none; position:absolute; top:62px; left:0; right:0; background:rgba(255,255,255,0.95); backdrop-filter:blur(20px); flex-direction:column; padding:16px; border-bottom:1px solid var(--b200); box-shadow:var(--shadow); border-radius:0 0 16px 16px; }
+  .nav-links.open { display:flex; }
+  .nav-links a { padding:10px 16px; font-size:14px; }
+  .menu-btn { display:block; }
+  .hero { padding:32px 20px; }
+  .hero-title { font-size:28px; letter-spacing:2px; }
+  .hero-route { font-size:14px; }
+  .route-flow { gap:4px; }
+  .route-node { min-width:70px; padding:10px 12px; }
+  .route-node .rn-city { font-size:13px; }
+  .route-arrow-node { font-size:14px; }
+  .day-card-body .schedule-table td:first-child { width:70px; font-size:11px; }
+  .nanao-grid { grid-template-columns:1fr; }
+  .emergency-grid { grid-template-columns:1fr; }
+}
+@media(max-width:480px){
+  .hero-info { gap:8px; }
+  .hero-info-item { padding:10px 14px; font-size:12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ========== 导航栏 ========== -->
+<nav class="nav" id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo">🗺️ 闽粤美食之旅</div>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#overview" class="active">行程总览</a></li>
+      <li><a href="#itinerary">每日行程</a></li>
+      <li><a href="#foodmap">美食地图</a></li>
+      <li><a href="#nanao">南澳岛</a></li>
+      <li><a href="#weather">实时天气</a></li>
+      <li><a href="#emergency">应急方案</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- ====== Hero ====== -->
+  <section class="section" id="home">
+    <div class="hero">
+      <div class="hero-badge">COASTAL FOOD JOURNEY</div>
+      <h1 class="hero-title">闽粤沿海美食之旅</h1>
+      <p class="hero-route">🏙️ 重庆 ✈ 福州 🚄 泉州 🚄 潮州 🚄 汕头 🌊 揭阳 ✈ 🏠 重庆</p>
+      <div class="hero-info">
+        <div class="hero-info-item">📅 <span><strong>9天</strong> 7/11-7/19</span></div>
+        <div class="hero-info-item">🏙️ <span><strong>5城</strong> + 1岛</span></div>
+        <div class="hero-info-item">👥 <span>母子 <strong>2人</strong></span></div>
+        <div class="hero-info-item">💰 <span>预算 <strong>¥1.3-1.8万</strong></span></div>
+      </div>
+      <!-- 台风警告 -->
+      <div class="typhoon-alert">
+        <span class="alert-icon">🌀</span>
+        <div class="alert-content">
+          <h4>⚠️ 台风季出行提醒</h4>
+          <p>2026年7月台风活动偏多偏强（预计2-3个登陆），7月10日前后有台风靠近福建沿海。本行程已预留7/20-21作为缓冲日，南澳岛设为浮动日（选最晴天出发）。出发前24小时务必查看中央气象台台风预警！</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 行程总览 ====== -->
+  <section class="section" id="overview">
+    <div class="section-header">
+      <span class="section-badge">ROUTE OVERVIEW</span>
+      <h2 class="section-title">行程总览</h2>
+      <p class="section-subtitle">9天5城+1岛，高铁串联闽粤沿海，一路向南吃遍福州到潮汕</p>
+    </div>
+    <div class="route-overview">
+      <div class="route-flow">
+        <div class="route-node">
+          <span class="rn-day">Day 1</span><span class="rn-icon">✈️</span>
+          <span class="rn-city">福州</span><span class="rn-date">7/11五</span>
+        </div>
+        <span class="route-arrow-node">→</span>
+        <div class="route-node">
+          <span class="rn-day">Day 2</span><span class="rn-icon">⛰️</span>
+          <span class="rn-city">福州</span><span class="rn-date">7/12六</span>
+        </div>
+        <span class="route-arrow-node">🚄→</span>
+        <div class="route-node">
+          <span class="rn-day">Day 3</span><span class="rn-icon">🏯</span>
+          <span class="rn-city">泉州</span><span class="rn-date">7/13日</span>
+        </div>
+        <span class="route-arrow-node">→</span>
+        <div class="route-node">
+          <span class="rn-day">Day 4</span><span class="rn-icon">🌸</span>
+          <span class="rn-city">泉州</span><span class="rn-date">7/14一</span>
+        </div>
+        <span class="route-arrow-node">🚄→</span>
+        <div class="route-node">
+          <span class="rn-day">Day 5</span><span class="rn-icon">🏛️</span>
+          <span class="rn-city">潮州</span><span class="rn-date">7/15二</span>
+        </div>
+        <span class="route-arrow-node">🚄→</span>
+        <div class="route-node">
+          <span class="rn-day">Day 6</span><span class="rn-icon">🏘️</span>
+          <span class="rn-city">汕头</span><span class="rn-date">7/16三</span>
+        </div>
+        <span class="route-arrow-node">→</span>
+        <div class="route-node" style="border-color:#fbbf24;">
+          <span class="rn-day" style="color:#f59e0b;">Day 7 ⚡</span><span class="rn-icon">🏖️</span>
+          <span class="rn-city">南澳岛</span><span class="rn-date">7/17四</span>
+        </div>
+        <span class="route-arrow-node">→</span>
+        <div class="route-node">
+          <span class="rn-day">Day 8</span><span class="rn-icon">🏯</span>
+          <span class="rn-city">揭阳</span><span class="rn-date">7/18五</span>
+        </div>
+        <span class="route-arrow-node">✈️→</span>
+        <div class="route-node">
+          <span class="rn-day">Day 9</span><span class="rn-icon">🏠</span>
+          <span class="rn-city">重庆</span><span class="rn-date">7/19六</span>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--text3);">📌 7/20-21为预留缓冲日 | ⚡ 南澳岛为浮动日，选汕头3天中最晴的一天</p>
+    </div>
+  </section>
+
+  <!-- ====== 每日行程 ====== -->
+  <section class="section" id="itinerary">
+    <div class="section-header">
+      <span class="section-badge">DAILY PLAN</span>
+      <h2 class="section-title">每日详细行程</h2>
+      <p class="section-subtitle">点击每一天展开查看完整时间表 ↓</p>
+    </div>
+    <div id="dayCards"></div>
+  </section>
+
+  <!-- ====== 美食地图 ====== -->
+  <section class="section" id="foodmap">
+    <div class="section-header">
+      <span class="section-badge">FOOD MAP</span>
+      <h2 class="section-title">美食打卡清单</h2>
+      <p class="section-subtitle">5座城市 30+ 道必吃美食，每家都有推荐店铺和人均价格 🍜</p>
+    </div>
+    <div id="foodMapContainer"></div>
+  </section>
+
+  <!-- ====== 南澳岛专题 ====== -->
+  <section class="section" id="nanao">
+    <div class="section-header">
+      <span class="section-badge">NAN'AO ISLAND</span>
+      <h2 class="section-title">🌊 南澳岛专题</h2>
+      <p class="section-subtitle">全程最关键的一天 — 必须是晴天！</p>
+    </div>
+    <div class="nanao-spotlight">
+      <h3>🏖️ 南澳岛 · 广东最美海岛</h3>
+      <p style="opacity:0.9;">11km跨海大桥直达，红色灯塔、风车山、彩虹海、玻璃海水</p>
+      <!-- 预约警告 -->
+      <div style="background:rgba(254,200,75,0.25);border:1px solid #fbbf24;border-radius:12px;padding:14px 18px;margin:13px 0;display:flex;align-items:flex-start;gap:10px;">
+        <span style="font-size:26px;">🚨</span>
+        <div><strong style="color:#fbbf24;">2026年新规：必须提前预约！</strong><br><span style="font-size:13px;opacity:0.9;">出发前7天在「南澳畅行」小程序预约入岛，锁定4-6小时通行窗口。不预约可能被劝返！旺季建议工作日错峰上岛。</span></div>
+      </div>
+      <div class="weather-req">
+        <span class="req-icon">☀️</span>
+        <div class="req-text">
+          <strong>强制晴天要求！</strong>南澳岛的美全靠好天气——红色灯塔配蓝天、玻璃海水、风车日落，雨天全毁。请在汕头3天（Day6-8）中选择天气预报最晴的一天上岛。<br>
+          ⚠️ 如遇台风预警（8级以上风力），南澳大桥将封闭，此时果断放弃上岛，转为汕头美食深度日。
+        </div>
+      </div>
+      <div class="nanao-grid">
+        <div class="nanao-card"><h4>🔴 长山尾灯塔</h4><p>南澳标志性红色灯塔，启航广场旁，上岛第一站必打卡，红塔+蓝海=绝美照片</p></div>
+        <div class="nanao-card"><h4>🏖️ 青澳湾 + 自然之门</h4><p>北回归线标志，南澳最好的沙滩，海水清澈见底，适合游泳踏浪</p></div>
+        <div class="nanao-card"><h4>🌬️ 风电场 + 三囱崖灯塔</h4><p>白色风车群矗立山脊，三囱崖灯塔是ins风拍照圣地</p></div>
+        <div class="nanao-card"><h4>🌈 走马埔村「彩虹海」</h4><p>彩色浮球养殖区铺满海面，无人机视角极为震撼，7月颜色最鲜艳</p></div>
+        <div class="nanao-card"><h4>🦞 后宅镇海鲜</h4><p>推荐：许大姐的菜、阿伟海鲜坊。紫菜炒饭+手打鱼丸汤+海胆炒饭必点</p></div>
+        <div class="nanao-card"><h4>🚗 交通方式</h4><p><strong>🚌 公交161路：</strong>汕头市区→南澳岛，约1.5h，¥15/人，节假日有专用道<br><strong>🚗 包车/打车：</strong>约1h，过桥费¥96往返<br><strong>🛵 岛上租电驴：</strong>¥60-80/天，需戴头盔<br>⚠️ 旺季7:30前上岛避堵</p></div>
+      </div>
+    </div>
+  </section>
+
+
+
+	  <!-- ====== 实时天气 ====== -->
+	  <section class="section" id="weather">
+	    <div class="section-header">
+	      <span class="section-badge">LIVE WEATHER</span>
+	      <h2 class="section-title">🌤️ 实时天气 & 出行建议</h2>
+	      <p class="section-subtitle">接入和风天气API · <a href="javascript:refreshWeather()" style="color:var(--b600);text-decoration:underline;">🔄 强制刷新天气</a></p>
+	    </div>
+	    <div class="weather-grid" id="weatherGrid">
+	      <div class="weather-card" style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text2);">
+	        <p style="font-size:40px;margin-bottom:12px;">⏳</p>
+	        <p style="cursor:pointer;" onclick="refreshWeather()">点击获取实时天气（或点上方链接）...</p>
+	      </div>
+	    </div>
+	    <div id="weatherDetail"></div>
+    <div id="weatherAdvice" style="margin-top:24px;"></div>
+	  </section>
+  <!-- ====== 应急方案 ====== -->
+  <section class="section" id="emergency">
+    <div class="section-header">
+      <span class="section-badge">PLAN B</span>
+      <h2 class="section-title">台风应急预案</h2>
+      <p class="section-subtitle">出行前务必查看中央气象台台风网 (typhoon.nmc.cn)</p>
+    </div>
+    <div class="emergency-grid">
+      <div class="emergency-card">
+        <h4>🚫 南澳岛避雷</h4>
+        <p>• 🚨 2026年起须在「南澳畅行」小程序提前7天预约入岛<br>• 金西梅是色素果脯，别买<br>• 海鲜去云澳渔港/后宅镇自购加工，称重要求去水沥干<br>• 别信路边拉客的"平价海鲜店"</p>
+      </div>
+      <div class="emergency-card">
+        <h4>🚫 各城消费避雷</h4>
+        <p>• 三坊七巷主街不买伴手礼（巷尾便宜一半）<br>• 泉州西街主街小吃贵1/3，钻小巷吃<br>• 潮州牌坊街主街别吃正餐，去西马路<br>• 汕头龙眼南路是游客陷阱，去珠江路<br>• 别信出租车/司机推荐的餐厅</p>
+      </div>
+      <div class="emergency-card">
+        <h4>💰 省钱妙招</h4>
+        <p>• 🎫 泉州清源山早7:00前免票（省70元/人！）<br>• 🚌 泉州古城「小白车」招手即停，2-3元<br>• 🥩 潮州牛肉火锅去官塘镇，便宜30%<br>• 🏨 泉州不住西街主街，新华路安静便宜<br>• 🚄 高铁选泉州站(非泉州南)、汕头站(非汕头南)</p>
+      </div>
+      <div class="emergency-card">
+        <h4>🍜 已确认踩雷店铺</h4>
+        <p>• ❌ 潮州顺伯反沙屋 — 口味不佳<br>• ❌ 潮州兴东卤鹅 — 不推荐<br>• ❌ 汕头龙眼南路网红店 — 游客价<br>• ❌ 出租车司机推荐的"平价海鲜" — 拿回扣<br>• ⚠️ 潮州开元路老牌咸水粿 — 多人踩雷</p>
+      </div>
+      <div class="emergency-card">
+        <h4>🌀 出发前遇台风预警</h4>
+        <p>推迟1-2天出发，使用7/20-21缓冲日。如7/11无法出发，改7/12或7/13出发，压缩泉州或潮州为1天。最晚7/13必须出发。</p>
+      </div>
+      <div class="emergency-card">
+        <h4>🌧️ 途中遇台风</h4>
+        <p>原地多住1天（如困在泉州就多玩一天，泉州博物馆超多），后续压缩潮州或揭阳。每城都有丰富的室内景点备选。</p>
+      </div>
+      <div class="emergency-card">
+        <h4>🚫 南澳岛大桥封闭</h4>
+        <p>果断放弃上岛！改为汕头美食深度日：礐石风景区+老市区骑楼+八合里总店+富苑夜粥+长平路美食街。汕头的牛肉火锅和夜粥绝对值回票价。</p>
+      </div>
+      <div class="emergency-card">
+        <h4>🌧️ 持续暴雨</h4>
+        <p>转为美食专题游！每城重点吃3-5家老店，室内景点优先（泉州海交馆、潮州己略黄公祠、汕头侨批馆）。雨天吃火锅最爽。</p>
+      </div>
+      <div class="emergency-card">
+        <h4>🏨 室内备选景点</h4>
+        <p><strong>福州：</strong>福建博物院、林则徐纪念馆<br><strong>泉州：</strong>海交馆、闽台缘博物馆、南音艺苑<br><strong>潮州：</strong>己略黄公祠、颐陶轩<br><strong>汕头：</strong>侨批文物馆、开埠文化陈列馆</p>
+      </div>
+      <div class="emergency-card">
+        <h4>📱 出行必备</h4>
+        <p>• 12306 APP（高铁购票）<br>• 携程/去哪儿（机票酒店）<br>• 中国气象局APP（台风路径）<br>• 高德地图（导航+公交）<br>• 大众点评（找美食）<br>• 南澳大桥公众号（查封闭状态）</p>
+      </div>
+    </div>
+
+    <!-- 城际交通表 -->
+    <div style="margin-top:32px;">
+      <h3 style="text-align:center;font-size:20px;font-weight:800;color:var(--b700);margin-bottom:16px;">🚄 城际高铁时刻参考</h3>
+      <table class="trans-table">
+        <thead><tr><th>区间</th><th>出发站</th><th>到达站</th><th>耗时</th><th>二等座</th><th>频次</th></tr></thead>
+        <tbody>
+          <tr><td>福州 → 泉州</td><td>福州南站</td><td><strong>泉州站</strong> ⚠不选泉州南</td><td>约 1 小时</td><td>约 ¥60</td><td>密集，每小时多班</td></tr>
+          <tr><td>泉州 → 潮州</td><td>泉州站</td><td>潮汕站</td><td>约 1.5 小时</td><td>¥120-144</td><td>每天 40+ 班</td></tr>
+          <tr><td>潮州 → 汕头</td><td>潮汕站</td><td><strong>汕头站</strong> ⚠不选汕头南</td><td>约 25 分钟</td><td>约 ¥15</td><td>密集</td></tr>
+          <tr><td>福州 → 泉州（最早）</td><td colspan="5">D3333 泉州 07:48→潮汕 09:43 | G1609 泉州南 09:32→潮汕 11:13</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div style="font-size:18px;font-weight:700;color:var(--b500);margin-bottom:6px;">🗺️ 闽粤沿海美食之旅</div>
+  <p>重庆 → 福州 → 泉州 → 潮州 → 汕头 → 南澳岛 → 揭阳 → 重庆</p>
+  <p style="margin-top:4px;opacity:0.7;">数据仅供出行参考 · 出发前请核实天气和交通信息 🌀</p>
+</footer>
+
+<button class="back-to-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ==========================================
+// 每日行程数据
+// ==========================================
+const days = [
+  {
+    num:1, date:"7月11日 周五", special:false,
+    title:"重庆 ✈ 福州 — 初到榕城", meta:"住宿：福州鼓楼区/东街口 | 🍜 重点：鱼丸、肉燕、荔枝肉",
+    schedule:[
+      ["07:00-08:00","重庆江北机场出发"],
+      ["08:00-10:30","✈️ 飞行约2.5h（推荐南航CZ或川航3U，票价约¥1,000-1,300/人）"],
+      ["10:30-12:00","抵达福州长乐机场，地铁/打车到鼓楼区酒店（约40分钟）"],
+      ["12:00-13:30","🍜 午餐：<strong>安泰楼</strong>（荔枝肉 ¥38、爆炒双脆、糟菜炒笋）"],
+      ["14:00-17:30","🏘️ <strong>三坊七巷</strong>：南后街→文儒坊→林则徐纪念馆→水榭戏台"],
+      ["17:30-19:30","🍜 晚餐：<strong>达明路美食街</strong>（永和鱼丸、同利肉燕、锅边糊、花生汤）"],
+      ["19:30","🌃 夜游南后街，灯笼亮起很美，早回酒店休息"]
+    ],
+    tags:[{t:"🍜 安泰楼 · 荔枝肉",c:"food"},{t:"🐟 永和鱼丸",c:"food"},{t:"🥟 同利肉燕",c:"food"},{t:"🏘️ 三坊七巷",c:"hotel"}]
+  },
+  {
+    num:2, date:"7月12日 周六", special:false,
+    title:"福州深度游 — 鼓山登高 + 上下杭 + 烟台山日落", meta:"住宿：福州 | 🍜 重点：锅边糊、海蛎煎、芋泥",
+    schedule:[
+      ["08:00-09:00","🍜 早餐：酒店附近<strong>锅边糊+拌面扁肉</strong>"],
+      ["08:30-12:00","⛰️ <strong>鼓山</strong>：缆车上山（¥50单程）→涌泉寺（¥40）→喝水岩→望江亭俯瞰福州→古道步行下山（约40分钟）"],
+      ["12:30-13:30","🍜 午餐：鼓山素斋或山脚农家菜"],
+      ["14:00-16:00","🏮 <strong>上下杭</strong>：三通桥→永德会馆→河边咖啡馆（推荐坐下来喝一杯）"],
+      ["16:00-18:00","🏛️ <strong>烟台山</strong>：石厝教堂→老洋房群→山顶咖啡馆看闽江日落"],
+      ["18:30-20:00","🍜 晚餐：<strong>老药洲街</strong>（海蛎煎 ¥15、热芋泥 ¥12、捞化）"]
+    ],
+    tags:[{t:"⛰️ 鼓山缆车+涌泉寺",c:"transport"},{t:"🏮 上下杭咖啡馆",c:"hotel"},{t:"🦪 老药洲街海蛎煎",c:"food"},{t:"🍠 热芋泥",c:"food"}]
+  },
+  {
+    num:3, date:"7月13日 周日", special:false,
+    title:"福州 🚄 泉州 — 世遗之城初探", meta:"住宿：泉州西街/开元寺附近 | 🍜 重点：面线糊、烧肉粽、牛肉羹",
+    schedule:[
+      ["08:00-09:00","🍜 早餐+前往福州南站"],
+      ["09:30-10:30","🚄 高铁 福州南→泉州（约1h，二等座约¥60/人）"],
+      ["10:30-11:30","入住泉州酒店（建议西街/开元寺附近，步行逛古城）"],
+      ["11:30-13:00","🍜 午餐：<strong>西街老店</strong>（面线糊+醋肉 ¥15、侯阿婆烧肉粽 ¥15、土笋冻 ¥12）"],
+      ["13:00-15:30","🏯 <strong>开元寺</strong>（东西双塔→大雄宝殿→古船博物馆，世遗核心）"],
+      ["15:30-17:30","🕌 步行逛宗教博物馆：清净寺（¥3）→关帝庙→天后宫，都在1公里内"],
+      ["18:00-20:00","🍜 晚餐：<strong>中山路夜市</strong>（好成财牛肉羹 ¥25、润饼 ¥10、秉正堂四果汤 ¥10、忠记姜母鸭）"]
+    ],
+    tags:[{t:"🚄 高铁1h",c:"transport"},{t:"🏯 开元寺东西塔",c:"hotel"},{t:"🍜 面线糊",c:"food"},{t:"🥟 烧肉粽",c:"food"},{t:"🦆 姜母鸭",c:"food"}]
+  },
+  {
+    num:4, date:"7月14日 周一", special:false,
+    title:"泉州深度 — 清源山 + 蟳埔簪花 + 洛阳桥", meta:"住宿：泉州 | 🍜 重点：石锅鱼、泉州卤面、崇武鱼卷",
+    schedule:[
+      ["08:00-09:00","🍜 早餐：<strong>面线糊+醋肉</strong>（泉州人标配早餐）"],
+      ["09:00-11:30","⛰️ <strong>清源山·老君岩</strong>（宋代老子石像，世遗点，门票¥70）"],
+      ["12:00-13:30","🍜 午餐：清源山脚下农家（石锅鱼、地瓜粉团）"],
+      ["14:00-16:00","🌸 <strong>蟳埔村</strong>（体验簪花围 ¥40，蚵壳厝拍照——妈妈一定会喜欢！非常出片）"],
+      ["16:30-17:30","🌉 <strong>洛阳桥</strong>（中国最早的跨海石桥，世遗点，夕阳下极美）"],
+      ["18:30-20:00","🍜 晚餐：西街/中山路（泉州卤面、崇武鱼卷、菜头酸）"]
+    ],
+    tags:[{t:"⛰️ 老君岩",c:"hotel"},{t:"🌸 蟳埔簪花体验",c:"hotel"},{t:"🌉 洛阳桥日落",c:"hotel"},{t:"🐟 石锅鱼",c:"food"}]
+  },
+  {
+    num:5, date:"7月15日 周二", special:false,
+    title:"泉州 🚄 潮州 — 潮汕美食之门", meta:"住宿：潮州牌坊街附近 | 🍜 重点：牛肉火锅、牛肉丸粿条、鸭母捻",
+    schedule:[
+      ["08:00-09:00","早餐后前往泉州站/泉州南站"],
+      ["09:00-10:30","🚄 高铁 泉州→潮汕站（约1.5h，二等座约¥125/人，每天40+班）"],
+      ["10:30-11:30","潮汕站打车到潮州市区（约30分钟，¥40-50）"],
+      ["12:00-13:30","🍜 午餐：<strong>牌坊街</strong>（镇记牛杂 ¥20、牛肉丸粿条 ¥15、春饼 ¥5、蚝煎 ¥20）"],
+      ["14:00-17:00","🏛️ <strong>牌坊街→广济桥→开元寺</strong>：22座牌坊→甲第巷→广济桥（¥20）→己略黄公祠（木雕绝品）"],
+      ["17:30-18:30","🍜 晚餐：<strong>老迹牛肉火锅</strong>（现切现涮，人均¥80，比汕头便宜！）"],
+      ["19:00-20:30","🌃 夜游牌坊街+广济桥灯光秀（免费，每晚多场）"]
+    ],
+    tags:[{t:"🚄 高铁1.5h",c:"transport"},{t:"🥩 牛肉火锅",c:"food"},{t:"🍡 牛肉丸粿条",c:"food"},{t:"🌉 广济桥灯光秀",c:"hotel"}]
+  },
+  {
+    num:6, date:"7月16日 周三", special:false,
+    title:"潮州 → 汕头 — 骑楼老城与牛肉火锅", meta:"住宿：汕头小公园/老市区 | 🍜 重点：八合里牛肉火锅、蚝烙、夜粥",
+    schedule:[
+      ["08:00-09:00","🍜 早餐：<strong>潮州肠粉+牛杂汤</strong>（双生肠粉 ¥10，和广州肠粉完全不同）"],
+      ["08:30-10:00","🌳 <strong>潮州西湖+许驸马府</strong>（早晨人少清静）"],
+      ["10:30-11:00","🚄 高铁 潮汕→汕头（约25分钟，二等座约¥15/人）"],
+      ["11:00-12:00","入住汕头酒店（建议小公园/老市区附近）"],
+      ["12:00-13:30","🍜 午餐：<strong>八合里海记牛肉火锅总店</strong>！（人均¥100，汕头牛肉火锅天花板）"],
+      ["14:00-17:00","🏛️ <strong>小公园+骑楼建筑群+老妈宫+侨批文物馆</strong>（汕头老城精华）"],
+      ["17:30-18:30","🌇 <strong>西堤公园</strong>看日落"],
+      ["19:00-21:00","🍜 晚餐：<strong>长平路美食街</strong>（飘香蚝烙 ¥25、老妈宫粽球 ¥12、糖葱薄饼 ¥8、鲎粿 ¥15）"]
+    ],
+    tags:[{t:"🥩 八合里牛肉火锅",c:"food"},{t:"🏛️ 小公园骑楼",c:"hotel"},{t:"🦪 飘香蚝烙",c:"food"},{t:"🌇 西堤日落",c:"hotel"}]
+  },
+  {
+    num:7, date:"7月17日 周四 ⚡浮动日", special:true,
+    title:"🌞 南澳岛 — 全程最关键的一天！", meta:"⚠️ 必须是晴天！如天气不好与Day6/8互换 | 🍜 重点：现捞海鲜、紫菜炒饭",
+    schedule:[
+      ["08:00-08:30","早上出发！汕头市区→南澳岛。方案A：🚌 公交161路（约1.5h，¥15/人，节假日有专用道）方案B：🚗 包车/打车（约1h，过桥费¥96/车往返）"],
+      ["08:00-09:30","🔴 <strong>长山尾灯塔+启航广场</strong>（南澳标志红塔，必打卡第一站）"],
+      ["09:30-11:00","🏖️ <strong>青澳湾+自然之门</strong>（北回归线标志，南澳最好沙滩，玻璃海水）"],
+      ["11:00-13:00","🍜 午餐：<strong>后宅镇海鲜</strong>（许大姐的菜/阿伟海鲜坊 — 紫菜炒饭¥25、手打鱼丸汤¥20、海胆炒饭¥48）"],
+      ["13:00-15:00","🌬️ <strong>风电场+三囱崖灯塔+云澳渔港</strong>（白色风车山脊，ins风拍照圣地）"],
+      ["15:00-17:00","🌈 <strong>走马埔村「彩虹海」</strong>（彩色浮球铺满海面，无人机视角绝美）"],
+      ["17:00-18:30","🌅 展南亭/钱澳湾看日落"],
+      ["18:30-20:00","返回汕头，🍜 晚餐：<strong>富苑饮食</strong>（汕头夜粥天花板！人均¥80，卤水+生腌+白粥）"]
+    ],
+    tags:[{t:"☀️ 必须晴天！",c:"food"},{t:"🔴 红色灯塔",c:"hotel"},{t:"🏖️ 青澳湾玻璃海",c:"hotel"},{t:"🦞 后宅镇海鲜",c:"food"},{t:"🌈 彩虹海",c:"hotel"},{t:"🌅 展南亭日落",c:"hotel"}]
+  },
+  {
+    num:8, date:"7月18日 周五", special:false,
+    title:"汕头 + 揭阳 — 潮汕双城记", meta:"住宿：汕头 | 🍜 重点：建业酒家卤水、乒乓粿、普宁豆干",
+    schedule:[
+      ["08:00-09:00","🍜 早餐：<strong>广场老牌豆花+薏米汤</strong>（汕头人的古早味）"],
+      ["09:00-11:30","🏛️ <strong>汕头老市区深度</strong>（如昨天没逛完）或<strong>礐石风景区</strong>（坐轮渡过海 ¥1）"],
+      ["12:00-13:30","🍜 午餐：<strong>建业酒家</strong>（汕头老牌潮菜，卤水拼盘¥68、冻蟹时价）"],
+      ["14:00-14:30","🚗 汕头→揭阳（打车约30分钟，¥50-60）"],
+      ["14:30-17:30","🏯 <strong>揭阳学宫+城隍庙+进贤门+中山路骑楼</strong>（揭阳老城精华，人少安静）"],
+      ["18:00-20:00","🍜 晚餐：揭阳老城（乒乓粿 ¥10、普宁豆干 ¥12、揭阳蚝烙 ¥18、阿伟粿汁 ¥12）"]
+    ],
+    tags:[{t:"🥢 建业酒家卤水",c:"food"},{t:"🏯 揭阳学宫",c:"hotel"},{t:"🍡 乒乓粿",c:"food"},{t:"🧀 普宁豆干",c:"food"}]
+  },
+  {
+    num:9, date:"7月19日 周六", special:false,
+    title:"揭阳 ✈ 重庆 — 满载而归", meta:"🏠 回家！| 🍜 早餐最后再吃一顿粿汁",
+    schedule:[
+      ["08:00-09:00","🍜 早餐：揭阳<strong>粿汁+肠粉</strong>（最后再吃一顿潮汕味）"],
+      ["09:00-10:00","前往揭阳潮汕机场（SWA，市区打车约30分钟）"],
+      ["10:30-13:00","✈️ 揭阳→重庆江北（约2.5h，推荐川航3U8004 11:05-13:35，票价约¥1,500/人）"],
+      ["13:00","🏠 回到重庆！9天5城+1岛，闽粤美食之旅圆满结束 🎉"]
+    ],
+    tags:[{t:"✈️ 飞回重庆",c:"transport"},{t:"🏠 到家！",c:"hotel"}]
+  }
+];
+
+// ==========================================
+// 渲染每日行程卡片
+// ==========================================
+document.getElementById('dayCards').innerHTML = days.map((d,i) => `
+  <div class="day-card ${i===0?'open':''}" id="dayCard${i}">
+    <div class="day-card-header" onclick="toggleDay(${i})">
+      <div class="day-num ${d.special?'special':''}">${d.num}</div>
+      <div class="day-info">
+        <div class="day-label">DAY ${d.num} · ${d.date}${d.special?' <span class="nanao-badge">☀️ 必须晴天</span>':''}</div>
+        <div class="day-title">${d.title}</div>
+        <div class="day-meta">${d.meta}</div>
+      </div>
+      <div class="day-expand">⌄</div>
+    </div>
+    <div class="day-card-body">
+      <table class="schedule-table">
+        ${d.schedule.map(s => `<tr><td>${s[0]}</td><td>${s[1]}</td></tr>`).join('')}
+      </table>
+      ${d.tags.length ? `
+        <div class="day-food-tags">
+          ${d.tags.map(t => `<span class="food-tag ${t.c==='transport'?'transport-tag':t.c==='hotel'?'hotel-tag':''}">${t.t}</span>`).join('')}
+        </div>` : ''}
+    </div>
+  </div>
+`).join('');
+
+function toggleDay(i) {
+  document.getElementById('dayCard'+i).classList.toggle('open');
+}
+
+// ==========================================
+// 美食地图
+// ==========================================
+const cityFoods = [
+  {
+    city:"福州", icon:"🏙️", sub:"闽菜发源地",
+    foods:[
+      ["鱼丸","永和鱼丸(三坊七巷)","¥15-25","福州小吃名片，Q弹鲜美"],
+      ["肉燕","同利肉燕(老铺)","¥12-20","肉包肉，独门工夫美食"],
+      ["佛跳墙","聚春园(始创)","¥128-688","国宴名菜，几十种珍馐一坛"],
+      ["锅边糊","南后街/老药洲街","¥8-15","福州早餐灵魂，汤鲜糊滑"],
+      ["荔枝肉","安泰楼","¥28-48","酸甜酥嫩，比糖醋里脊更讲究"],
+      ["芋泥","老福州/聚春园","¥10-18","宴席压轴甜品，香甜绵密"]
+    ]
+  },
+  {
+    city:"泉州", icon:"🏯", sub:"世界美食之都（申报中）",
+    foods:[
+      ["面线糊","水门国仔（水门巷总店）","¥10-20","泉州人的灵魂早餐，加醋肉是标配"],
+      ["烧肉粽","侯阿婆肉粽","¥12-18","配料丰富，蘸甜辣酱和花生酱吃"],
+      ["牛肉羹","好成财牛排馆","¥20-35","Q弹嫩滑，汤头浓郁"],
+      ["土笋冻","西街摊贩","¥10-15","胶原蛋白满满，蘸酱油醋吃"],
+      ["姜母鸭","斯丹姜母鸭(涂门街)","¥60-80","闽南冬季进补，但夏天吃也很香"],
+      ["四果汤","秉正堂","¥8-12","泉州版清补凉，消暑神器"]
+    ]
+  },
+  {
+    city:"潮州", icon:"🏛️", sub:"潮菜之乡",
+    foods:[
+      ["牛肉火锅","官塘兄弟牛肉店","¥70-100","现切现涮，比汕头便宜还好吃"],
+      ["牛肉丸粿条","镇记老尾","¥15-25","手打牛肉丸弹到可以当乒乓球"],
+      ["潮州肠粉","双生肠粉","¥10-15","浇花生酱和沙茶酱，和广式完全不同"],
+      ["鸭母捻","胡荣泉","¥10-15","潮州甜品，像鸭蛋一样在糖水里漂"],
+      ["春饼","西马路摊贩","¥5-8","炸得酥脆，内馅丰富"],
+      ["生腌(潮汕毒药)","圆蛋酒料/阿文潮汕生腌","¥15-25","潮州版蚝烙，外脆内嫩"]
+    ]
+  },
+  {
+    city:"汕头", icon:"🏘️", sub:"中国美食孤岛",
+    foods:[
+      ["牛肉火锅","八合里海记总店","¥80-120","汕头牛肉火锅天花板，必去总店"],
+      ["蚝烙","飘香小食店","¥20-30","外酥里嫩，蚝仔饱满"],
+      ["夜粥","富苑饮食","¥60-100","汕头夜粥文化，卤水+生腌配白粥"],
+      ["粽球","老妈宫粽球","¥10-15","甜咸双拼，全国独一份"],
+      ["卤水","建业酒家","¥80-150","潮汕卤水天下第一，鹅肝鹅翅必点"],
+      ["糖葱薄饼","长平路","¥5-8","《舌尖》同款，甜脆不腻"]
+    ]
+  },
+  {
+    city:"揭阳", icon:"🏯", sub:"被低估的美食之城",
+    foods:[
+      ["乒乓粿","老城小店","¥8-15","揭阳独有小吃，皮Q馅香"],
+      ["普宁豆干","街边摊","¥10-12","外酥里嫩，蘸韭菜盐水吃"],
+      ["蚝烙","揭阳老城","¥15-25","揭阳版蚝烙，蚝多粉少"],
+      ["粿汁","阿伟粿汁","¥10-15","米浆粿片配卤味，揭阳特色早餐"]
+    ]
+  }
+];
+
+document.getElementById('foodMapContainer').innerHTML = cityFoods.map(c => `
+  <div class="city-food-section">
+    <div class="city-food-header">
+      <span class="city-food-icon">${c.icon}</span>
+      <div>
+        <div class="city-food-name">${c.city}</div>
+        <div class="city-food-sub">${c.sub}</div>
+      </div>
+    </div>
+    <table class="food-table">
+      <thead><tr><th>美食</th><th>推荐店</th><th>人均</th><th>特点</th></tr></thead>
+      <tbody>
+        ${c.foods.map(f => `<tr><td>${f[0]}</td><td>${f[1]}</td><td>${f[2]}</td><td>${f[3]}</td></tr>`).join('')}
+      </tbody>
+    </table>
+  </div>
+`).join('');
+
+// ==========================================
+// 导航交互
+// ==========================================
+function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+    document.querySelectorAll('.nav-links a').forEach(l=>l.classList.remove('active'));
+    link.classList.add('active');
+  });
+});
+
+window.addEventListener('scroll', () => {
+  document.getElementById('backTop').classList.toggle('visible', scrollY > 500);
+  let current = '';
+  document.querySelectorAll('.section').forEach(s => {
+    if (scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+  });
+  document.querySelectorAll('.nav-links a').forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href')==='#'+current) l.classList.add('active');
+  });
+});
+
+// ==========================================
+// 实时天气 API (和风天气)
+var WKEY = '630fad2cee504c84be64481591980430';
+var WHOST = 'm736xa2dva.re.qweatherapi.com';
+var WCACHE = 'fz_wx_v3';
+var WCITIES = [
+  {name:'福州',id:'101230101'},{name:'泉州',id:'101230501'},
+  {name:'潮州',id:'101281501'},{name:'汕头',id:'101280501'},
+  {name:'南澳',id:'101280502'},{name:'揭阳',id:'101281901'}
+];
+var WICON = {晴:'☀️',少云:'🌤️',晴间多云:'⛅',多云:'☁️',阴:'☁️',小雨:'🌧️',中雨:'🌧️',大雨:'🌧️',暴雨:'⛈️',雷阵雨:'⛈️',阵雨:'🌦️',雾:'🌫️'};
+var wxData = {};
+
+function wxIcon(t) { for(var k in WICON){if(t.indexOf(k)>=0)return WICON[k];} return '🌤️'; }
+
+async function wxFetch(force) {
+  var g = document.getElementById('weatherGrid');
+  g.innerHTML = '<div class="weather-card" style="grid-column:1/-1;text-align:center;padding:40px;"><p style="font-size:40px;">⏳</p><p>获取实时天气中...</p></div>';
+  if (force) { localStorage.removeItem(WCACHE); }
+
+  try {
+    var raw = localStorage.getItem(WCACHE);
+    if (raw && !force) {
+      var cached = JSON.parse(raw);
+      if (Date.now() - cached.t < 1800000) { wxData = cached.d; wxRender(); return; }
+    }
+  } catch(e) {}
+
+  console.log('🌐 获取实时天气...');
+  wxData = {};
+  var jobs = WCITIES.map(function(c) {
+    return fetch('https://'+WHOST+'/v7/weather/7d?location='+c.id+'&key='+WKEY)
+      .then(function(r){return r.json();})
+      .then(function(j){
+        if(j.code==='200') wxData[c.name]=j.daily.map(function(d){
+          return {date:d.fxDate,icon:wxIcon(d.textDay),desc:d.textDay,tempH:d.tempMax,tempL:d.tempMin,humidity:d.humidity,wind:d.windDirDay+' '+d.windScaleDay+'级'};
+        });
+      })
+      .catch(function(e){console.warn(c.name+'天气失败');});
+  });
+  await Promise.all(jobs);
+  localStorage.setItem(WCACHE, JSON.stringify({t:Date.now(),d:wxData}));
+  wxRender();
+}
+
+function wxRender() {
+  var g = document.getElementById('weatherGrid');
+  var names = Object.keys(wxData);
+  if (names.length === 0) {
+    g.innerHTML = '<div class="weather-card" style="grid-column:1/-1;padding:30px;text-align:center;"><p>⚠️ 天气获取失败 <a href="javascript:wxFetch(true)" style="color:var(--b600);">点击重试</a></p></div>';
+    return;
+  }
+
+  var naBest = null;
+  if (wxData['南澳']) {
+    naBest = wxData['南澳'].filter(function(d){return d.desc.indexOf('雨')<0;})[0];
+  }
+
+  var html = '';
+  WCITIES.forEach(function(c) {
+    var d = wxData[c.name];
+    if (!d) return;
+    var t = d[0];
+    var best = c.name==='南澳' && naBest && t.date===naBest.date;
+    html += '<div class="weather-card'+(best?' nanao-best':'')+'" data-city="'+c.name+'" onclick="wxDetail(this)" style="cursor:pointer" title="点击查看7天预报"><div class="w-city">'+c.name+' ›</div><div class="w-icon">'+t.icon+'</div><div class="w-temp">'+t.tempH+'° <span style="font-size:14px;color:#94a3b8;">'+t.tempL+'°</span></div><div class="w-desc">'+t.desc+' · 💧'+t.humidity+'%</div><div class="w-tip">'+(best?'🏖️ 适合上岛！':t.desc.indexOf('雨')>=0?'🌧️ 备好雨具':t.tempH>=35?'🔥 注意防暑':'👍 适宜出行')+'</div></div>';
+  });
+  g.innerHTML = html;
+
+  if (wxData['福州']) {
+    var fz = wxData['福州'][0];
+    var h = document.querySelector('.hero-weather');
+    if (h) h.innerHTML = '<span style="font-size:44px;">'+fz.icon+'</span><div><span class="hero-temp">'+fz.tempH+'°</span><div>'+fz.desc+' · 💧'+fz.humidity+'%</div></div>';
+  }
+
+  var adv = document.getElementById('weatherAdvice');
+  if (adv) {
+    var a = '<div class="weather-advice-card"><h4>📋 智能出行建议</h4>';
+    if (wxData['福州']) {
+      var f = wxData['福州'][0];
+      a += '<p>🌤️ <strong>福州今日：</strong>'+f.desc+'，'+f.tempH+'°/'+f.tempL+'°。'+(f.desc.indexOf('雨')>=0?'带伞，优先室内。':'适合户外！')+'</p>';
+    }
+    if (naBest) {
+      a += '<p>🏖️ <strong>南澳岛：</strong><span style="color:#059669;font-weight:600;">'+naBest.date+'（'+naBest.desc+'，'+naBest.tempH+'°/'+naBest.tempL+'°）最适合上岛！</span></p>';
+    } else if (wxData['南澳']) {
+      a += '<p>⚠️ <strong>南澳岛：</strong>近期多雨，建议准备汕头美食备选方案</p>';
+    }
+    if (wxData['汕头']) {
+      var s = wxData['汕头'][0];
+      a += '<p>🌊 <strong>汕头参考：</strong>'+s.desc+'，'+s.tempH+'°/'+s.tempL+'°，风力'+s.wind+'。'+(parseInt(s.wind)>=6?'⚠️ 风大，大桥可能限行。':'风力正常。')+'</p>';
+    }
+    a += '<p style="font-size:12px;color:var(--text3);margin-top:10px;">💡 30分钟自动缓存 · 数据：和风天气</p></div>';
+    adv.innerHTML = a;
+  }
+}
+
+function wxDetail(el) {
+  var city = el.getAttribute('data-city');
+  var d = wxData[city];
+  if (!d) return;
+  var panel = document.getElementById('weatherDetail');
+  if (!panel) return;
+  var rows = '';
+  d.forEach(function(r){
+    rows += '<tr><td>'+r.date+'</td><td>'+r.icon+' '+r.desc+'</td><td>'+r.tempH+'°/'+r.tempL+'°</td><td>💧'+r.humidity+'%</td><td>'+r.wind+'</td></tr>';
+  });
+  panel.innerHTML = '<div class="weather-advice-card"><h4>📅 '+city+' 7天预报</h4><table class="food-table" style="margin-top:10px;"><thead><tr><th>日期</th><th>天气</th><th>温度</th><th>湿度</th><th>风力</th></tr></thead><tbody>'+rows+'</tbody></table><p style="text-align:right;margin-top:8px;"><a href="javascript:void(0)" onclick="document.getElementById(\'weatherDetail\').innerHTML=\'\'" style="color:var(--b600);font-size:13px;">✕ 收起</a></p></div>';
+  panel.scrollIntoView({behavior:'smooth'});
+}
+
+wxFetch(false);
+
+</script>
+
+</body>
+</html>

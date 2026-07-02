@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>福州旅游攻略 · 榕城漫游指南</title>
+<style>
+/* ============ 基础 & 变量 ============ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --p900: #4c1d95; --p800: #5b21b6; --p700: #6d28d9;
+  --p600: #7c3aed; --p500: #8b5cf6; --p400: #a78bfa;
+  --p300: #c4b5fd; --p200: #ddd6fe; --p100: #ede9fe;
+  --p50: #f5f3ff; --white: #ffffff; --glass: rgba(255,255,255,0.7);
+  --text: #1e1b4b; --text2: #4b5563; --text3: #9ca3af;
+  --gold: #f59e0b; --red: #ef4444; --amber: #f97316;
+  --shadow-sm: 0 1px 3px rgba(109,40,217,0.06);
+  --shadow: 0 4px 20px rgba(109,40,217,0.10);
+  --shadow-lg: 0 12px 40px rgba(109,40,217,0.15);
+  --shadow-xl: 0 20px 60px rgba(109,40,217,0.20);
+  --radius: 18px; --radius-sm: 12px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(180deg, #faf5ff 0%, #f5f3ff 30%, #ede9fe 60%, #f5f3ff 100%);
+  color: var(--text); line-height: 1.7; min-height: 100vh;
+  overflow-x: hidden;
+}
+/* 背景装饰 */
+body::before {
+  content: ''; position: fixed; top: -200px; right: -200px;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(167,139,250,0.15) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+body::after {
+  content: ''; position: fixed; bottom: -150px; left: -150px;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,181,253,0.12) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+/* ============ 导航栏 - 玻璃效果 ============ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(255,255,255,0.75); backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(196,181,253,0.25);
+  padding: 0 20px; transition: var(--transition);
+}
+.nav.scrolled { box-shadow: 0 4px 24px rgba(109,40,217,0.08); }
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; height: 60px;
+}
+.nav-logo {
+  font-size: 22px; font-weight: 800;
+  background: linear-gradient(135deg, var(--p700), var(--p500));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; letter-spacing: 2px;
+}
+.nav-links { display: flex; gap: 4px; list-style: none; }
+.nav-links a {
+  text-decoration: none; color: var(--text2);
+  padding: 8px 16px; border-radius: 24px;
+  font-size: 14px; font-weight: 500;
+  transition: all 0.25s; position: relative;
+}
+.nav-links a:hover { color: var(--p600); background: var(--p50); }
+.nav-links a.active { background: var(--p600); color: white; box-shadow: 0 4px 12px rgba(124,58,237,0.3); }
+.menu-btn { display: none; background: none; border: none; font-size: 26px; cursor: pointer; color: var(--p600); }
+
+/* ============ 主体 ============ */
+.main { max-width: 1100px; margin: 0 auto; padding: 90px 24px 48px; position: relative; z-index: 1; }
+.section { margin-bottom: 64px; }
+
+/* ============ 板块标题 ============ */
+.section-header { text-align: center; margin-bottom: 36px; }
+.section-badge {
+  display: inline-block; padding: 6px 18px;
+  background: linear-gradient(135deg, var(--p100), var(--p200));
+  border-radius: 20px; font-size: 13px; font-weight: 600;
+  color: var(--p600); letter-spacing: 2px; margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.section-icon { font-size: 44px; display: block; margin-bottom: 8px; }
+.section-title {
+  font-size: 30px; font-weight: 800;
+  background: linear-gradient(135deg, var(--p800), var(--p500));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.section-subtitle { font-size: 15px; color: var(--text2); margin-top: 6px; }
+.section-divider {
+  width: 60px; height: 3px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--p400), var(--p300), transparent);
+  margin: 14px auto 0;
+}
+
+/* ============ 卡片网格 ============ */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 22px; }
+@media (max-width: 400px) { .card-grid { grid-template-columns: 1fr; } }
+
+/* ============ 通用卡片 - 玻璃 ============ */
+.card {
+  background: var(--white); border-radius: var(--radius);
+  padding: 26px; box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(196,181,253,0.15);
+  transition: all var(--transition); position: relative; overflow: hidden;
+}
+.card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--p500), var(--p400), var(--p300));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform var(--transition);
+}
+.card:hover::after { transform: scaleX(1); }
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg); border-color: var(--p300);
+}
+.card.clickable { cursor: pointer; }
+.card.clickable:hover { box-shadow: var(--shadow-xl); }
+
+/* ============ Hero ============ */
+.hero {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 25%, #8b5cf6 50%, #a78bfa 75%, #c4b5fd 100%);
+  border-radius: 24px; padding: 56px 40px; margin-bottom: 52px;
+  color: white; text-align: center;
+  box-shadow: 0 20px 60px rgba(109,40,217,0.25);
+}
+.hero::before {
+  content: ''; position: absolute; top: -80px; right: -60px;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+.hero::after {
+  content: ''; position: absolute; bottom: -40px; left: -40px;
+  width: 180px; height: 180px; border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.hero > * { position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-block; padding: 6px 18px;
+  background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px; font-size: 13px; letter-spacing: 3px;
+  backdrop-filter: blur(8px); margin-bottom: 16px;
+}
+.hero-city { font-size: 56px; font-weight: 900; letter-spacing: 8px; text-shadow: 0 2px 20px rgba(0,0,0,0.1); }
+.hero-nickname { font-size: 20px; opacity: 0.95; margin: 6px 0 4px; font-weight: 500; }
+.hero-slogan { font-size: 16px; opacity: 0.8; margin-top: 4px; }
+.hero-weather {
+  display: inline-flex; align-items: center; gap: 14px;
+  margin-top: 22px; background: rgba(255,255,255,0.18);
+  padding: 14px 28px; border-radius: 50px; font-size: 17px;
+  backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.25);
+}
+.hero-temp { font-size: 40px; font-weight: 900; }
+.hero-scroll {
+  margin-top: 30px; animation: bounce 2s infinite;
+  font-size: 24px; opacity: 0.7;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ============ 今日推荐 ============ */
+.today-recommend {
+  margin-top: 28px; background: rgba(255,255,255,0.95);
+  border-radius: var(--radius); padding: 28px; text-align: left;
+  color: var(--text); box-shadow: var(--shadow); backdrop-filter: blur(8px);
+}
+.today-recommend h3 {
+  font-size: 18px; font-weight: 700;
+  background: linear-gradient(135deg, var(--p700), var(--p500));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin-bottom: 14px;
+}
+.rec-list { display: flex; flex-direction: column; gap: 10px; }
+.rec-item { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; }
+.rec-emoji {
+  font-size: 24px; width: 36px; height: 36px; display: flex;
+  align-items: center; justify-content: center;
+  background: var(--p50); border-radius: 10px; flex-shrink: 0;
+}
+.rec-text { font-size: 14px; line-height: 1.6; }
+.rec-text strong { color: var(--p700); }
+
+/* ============ 美食卡片 ============ */
+.food-card .food-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.food-card .food-icon {
+  font-size: 42px; width: 60px; height: 60px; display: flex;
+  align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--p50), var(--p100));
+  border-radius: 16px; flex-shrink: 0;
+}
+.food-card .food-name { font-size: 20px; font-weight: 700; color: var(--p800); }
+.food-card .food-price { font-size: 13px; color: var(--p500); font-weight: 600; }
+.food-card .food-desc { font-size: 14px; color: var(--text2); margin-bottom: 12px; line-height: 1.65; }
+.food-card .food-shop { font-size: 13px; color: var(--text2); margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.food-card .food-shop span {
+  background: linear-gradient(135deg, var(--p50), var(--p100));
+  padding: 3px 10px; border-radius: 14px; font-size: 12px;
+}
+.stars { color: var(--gold); font-size: 14px; letter-spacing: 1px; }
+.platform-ratings { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+.platform-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+}
+.platform-badge.ctrip { background: #e8f4fd; color: #0077cc; }
+.platform-badge.mafengwo { background: #fff7ed; color: #ea580c; }
+.platform-badge.dianping { background: #fef2f2; color: #dc2626; }
+.platform-badge.meituan { background: #fdf4ff; color: #a21caf; }
+
+/* ============ 景点卡片 ============ */
+.spot-card .spot-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+.spot-card .spot-icon {
+  font-size: 38px; width: 56px; height: 56px; display: flex;
+  align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--p50), var(--p100));
+  border-radius: 14px; flex-shrink: 0;
+}
+.spot-card .spot-name { font-size: 20px; font-weight: 700; color: var(--p800); }
+.spot-card .spot-time { font-size: 13px; color: var(--p500); }
+.spot-card .spot-desc { font-size: 14px; color: var(--text2); margin-bottom: 10px; line-height: 1.6; }
+.spot-card .spot-meta { display: flex; gap: 12px; flex-wrap: wrap; font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+.spot-card .spot-meta span { background: var(--p50); padding: 4px 12px; border-radius: 14px; }
+.spot-card .spot-click-hint {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 6px; font-size: 12px; color: var(--p400); margin-top: 8px;
+  font-weight: 500;
+}
+
+/* ============ 交通卡片 ============ */
+.transport-card .route { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.transport-card .route-from, .transport-card .route-to {
+  font-weight: 700; font-size: 18px; color: var(--p800);
+  background: var(--p50); padding: 6px 16px; border-radius: 20px;
+}
+.transport-card .route-arrow { color: var(--p400); font-size: 22px; font-weight: 700; }
+.transport-card .trans-options { display: flex; flex-direction: column; gap: 9px; }
+.trans-option {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 14px; background: var(--p50); border-radius: 10px;
+  font-size: 14px; transition: var(--transition);
+}
+.trans-option:hover { background: var(--p100); }
+.trans-option .trans-mode { font-weight: 600; color: var(--p700); }
+.trans-option .trans-time { color: var(--text2); font-size: 13px; }
+
+/* ============ 路线推荐卡片 ============ */
+.route-plans-wrapper { margin-top: 32px; display: flex; flex-direction: column; gap: 24px; }
+.route-plan-card {
+  background: var(--white); border-radius: var(--radius);
+  padding: 30px; box-shadow: var(--shadow);
+  border: 1px solid rgba(196,181,253,0.15);
+}
+.route-plan-card h3 {
+  font-size: 22px; font-weight: 800;
+  background: linear-gradient(135deg, var(--p700), var(--p500));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin-bottom: 20px;
+}
+.route-plan-card .plan-day { margin-bottom: 22px; }
+.route-plan-card .plan-day:last-child { margin-bottom: 0; }
+.route-plan-card .plan-day h4 {
+  font-size: 16px; font-weight: 700; color: var(--p600); margin-bottom: 8px;
+}
+.route-plan-card .plan-steps { list-style: none; padding-left: 0; }
+.route-plan-card .plan-steps li {
+  padding: 5px 0 5px 24px; font-size: 14px; color: var(--text2);
+  position: relative; line-height: 1.6;
+}
+.route-plan-card .plan-steps li::before {
+  content: ''; position: absolute; left: 4px; top: 13px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--p400);
+}
+
+/* ============ 一日游路线图 (重点模块) ============ */
+.route-map-section {
+  margin-top: 32px; background: var(--white);
+  border-radius: var(--radius); padding: 36px 32px;
+  box-shadow: var(--shadow); border: 1px solid rgba(196,181,253,0.15);
+}
+.route-map-title {
+  font-size: 24px; font-weight: 800;
+  background: linear-gradient(135deg, var(--p700), var(--p500));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; text-align: center; margin-bottom: 8px;
+}
+.route-map-subtitle { text-align: center; font-size: 14px; color: var(--text2); margin-bottom: 36px; }
+
+/* 路线时间轴 */
+.route-timeline { position: relative; padding-left: 50px; }
+.route-timeline::before {
+  content: ''; position: absolute; left: 19px; top: 8px; bottom: 8px;
+  width: 3px; background: linear-gradient(180deg, var(--p500), var(--p400), var(--p300), var(--p200));
+  border-radius: 2px;
+}
+.timeline-stop { position: relative; margin-bottom: 28px; }
+.timeline-stop:last-child { margin-bottom: 0; }
+.timeline-stop .stop-dot {
+  position: absolute; left: -50px; top: 4px;
+  width: 41px; height: 41px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; font-size: 16px;
+  font-weight: 800; color: white; z-index: 2;
+  box-shadow: 0 4px 14px rgba(109,40,217,0.3);
+}
+.timeline-stop .stop-dot.start { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+.timeline-stop .stop-dot.spot { background: linear-gradient(135deg, #a78bfa, #8b5cf6); }
+.timeline-stop .stop-dot.food { background: linear-gradient(135deg, #f59e0b, #f97316); }
+.timeline-stop .stop-dot.end { background: linear-gradient(135deg, #6d28d9, #5b21b6); }
+
+.timeline-stop .stop-content {
+  background: var(--p50); border-radius: var(--radius-sm);
+  padding: 20px 22px; border-left: 4px solid var(--p400);
+  transition: var(--transition);
+}
+.timeline-stop .stop-content:hover { box-shadow: var(--shadow); border-left-color: var(--p600); }
+.timeline-stop .stop-time {
+  font-size: 12px; font-weight: 700; color: var(--p500);
+  letter-spacing: 1px; margin-bottom: 6px;
+}
+.timeline-stop .stop-title { font-size: 18px; font-weight: 700; color: var(--p800); margin-bottom: 6px; }
+.timeline-stop .stop-desc { font-size: 14px; color: var(--text2); line-height: 1.6; margin-bottom: 10px; }
+
+/* 批注标签 */
+.stop-annotations { display: flex; flex-wrap: wrap; gap: 8px; }
+.annotation-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: 16px; font-size: 12px; font-weight: 600;
+}
+.annotation-tag.eat { background: #fef3c7; color: #92400e; }
+.annotation-tag.play { background: #ede9fe; color: #5b21b6; }
+.annotation-tag.trans { background: #dbeafe; color: #1e40af; }
+.annotation-tag.tip { background: #fce7f3; color: #9d174d; }
+.annotation-tag.time-tag { background: #d1fae5; color: #065f46; }
+
+/* 连接箭头 */
+.timeline-connector {
+  margin: -12px 0 -12px -50px; padding-left: 54px;
+  font-size: 13px; color: var(--text3); padding-top: 4px; padding-bottom: 4px;
+}
+.timeline-connector .connector-inner {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 14px; background: rgba(255,255,255,0.6);
+  border-radius: 20px; border: 1px dashed var(--p300);
+}
+.timeline-connector .conn-icon { font-size: 18px; }
+.timeline-connector .conn-text { font-weight: 500; color: var(--text2); }
+
+/* ============ 天气板块 ============ */
+.weather-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 16px; }
+.weather-card {
+  background: var(--white); border-radius: var(--radius);
+  padding: 22px 16px; text-align: center;
+  box-shadow: var(--shadow-sm); border: 1px solid rgba(196,181,253,0.1);
+  transition: var(--transition);
+}
+.weather-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.weather-card .w-day { font-size: 14px; font-weight: 700; color: var(--p600); margin-bottom: 8px; }
+.weather-card .w-icon { font-size: 40px; margin: 8px 0; }
+.weather-card .w-temp { font-size: 24px; font-weight: 800; color: var(--p800); }
+.weather-card .w-desc { font-size: 13px; color: var(--text2); margin-top: 6px; }
+.weather-card .w-tip {
+  font-size: 12px; color: var(--p600); margin-top: 10px;
+  padding: 6px 10px; background: var(--p50); border-radius: 14px; line-height: 1.4;
+}
+.weather-card.today { border: 2px solid var(--p500); box-shadow: 0 0 0 4px rgba(139,92,246,0.08); position: relative; }
+.weather-card.today::after { content: '今天'; position: absolute; top: 10px; right: 14px; font-size: 11px; font-weight: 700; color: var(--p500); background: var(--p50); padding: 2px 10px; border-radius: 10px; }
+
+/* ============ 模态弹窗 ============ */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(30,27,75,0.6);
+  backdrop-filter: blur(6px); z-index: 2000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.modal-overlay.active { opacity: 1; pointer-events: auto; }
+.modal {
+  background: var(--white); border-radius: 20px;
+  max-width: 680px; width: 100%; max-height: 85vh;
+  overflow-y: auto; box-shadow: var(--shadow-xl);
+  transform: translateY(30px) scale(0.96);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.modal-overlay.active .modal { transform: translateY(0) scale(1); }
+.modal-header {
+  position: sticky; top: 0; z-index: 10;
+  background: linear-gradient(135deg, var(--p700), var(--p500));
+  color: white; padding: 28px 28px 24px; border-radius: 20px 20px 0 0;
+}
+.modal-header .m-emoji { font-size: 44px; display: block; margin-bottom: 8px; }
+.modal-header .m-title { font-size: 26px; font-weight: 800; }
+.modal-header .m-meta { font-size: 14px; opacity: 0.9; margin-top: 4px; }
+.modal-close {
+  position: absolute; top: 18px; right: 20px;
+  background: rgba(255,255,255,0.2); border: none; color: white;
+  width: 36px; height: 36px; border-radius: 50%; font-size: 20px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+}
+.modal-close:hover { background: rgba(255,255,255,0.35); transform: rotate(90deg); }
+.modal-body { padding: 28px; }
+.modal-body h4 {
+  font-size: 16px; font-weight: 700; color: var(--p700);
+  margin: 20px 0 10px; padding-left: 14px; border-left: 3px solid var(--p400);
+}
+.modal-body h4:first-child { margin-top: 0; }
+.modal-body p { font-size: 14px; color: var(--text2); line-height: 1.7; }
+.modal-body .m-info-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin-bottom: 16px;
+}
+.m-info-item {
+  background: var(--p50); padding: 14px 16px; border-radius: 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.m-info-item .m-info-icon { font-size: 22px; }
+.m-info-item .m-info-label { font-size: 12px; color: var(--text3); }
+.m-info-item .m-info-value { font-size: 15px; font-weight: 700; color: var(--p800); }
+.modal-body .m-tips { background: #fffbeb; border-radius: 12px; padding: 16px 18px; border: 1px solid #fde68a; }
+.modal-body .m-tips strong { color: var(--amber); }
+
+/* ============ 回到顶部 ============ */
+.back-to-top {
+  position: fixed; bottom: 30px; right: 30px; z-index: 999;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--p600), var(--p500));
+  color: white; border: none; font-size: 22px; cursor: pointer;
+  box-shadow: 0 6px 20px rgba(124,58,237,0.35);
+  transition: var(--transition); opacity: 0; pointer-events: none; transform: translateY(10px);
+}
+.back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.back-to-top:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(124,58,237,0.45); }
+
+/* ============ 页脚 ============ */
+.footer { text-align: center; padding: 48px 20px; color: var(--text3); font-size: 13px; position: relative; z-index: 1; }
+.footer-brand { font-size: 18px; font-weight: 700; color: var(--p500); margin-bottom: 6px; }
+
+/* ============ 滚动入场动画 ============ */
+.fade-up {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ============ 响应式 ============ */
+@media (max-width: 768px) {
+  .nav-links { display: none; position: absolute; top: 60px; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); flex-direction: column; padding: 16px; border-bottom: 1px solid var(--p200); box-shadow: var(--shadow); border-radius: 0 0 16px 16px; }
+  .nav-links.open { display: flex; }
+  .menu-btn { display: block; }
+  .hero { padding: 36px 24px; }
+  .hero-city { font-size: 40px; letter-spacing: 4px; }
+  .hero-temp { font-size: 32px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .weather-grid { grid-template-columns: repeat(3, 1fr); }
+  .route-timeline { padding-left: 40px; }
+  .route-timeline::before { left: 14px; }
+  .timeline-stop .stop-dot { left: -40px; width: 33px; height: 33px; font-size: 14px; }
+  .timeline-connector { margin-left: -40px; padding-left: 44px; }
+  .modal-body .m-info-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .weather-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero { padding: 28px 16px; }
+  .hero-city { font-size: 32px; }
+  .route-map-section { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ========== 导航栏 ========== -->
+<nav class="nav" id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo">🏙️ 榕城攻略</div>
+    <button class="menu-btn" onclick="toggleMenu()" aria-label="菜单">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="active">首页</a></li>
+      <li><a href="#food">美食</a></li>
+      <li><a href="#spots">景点</a></li>
+      <li><a href="#route">路线</a></li>
+      <li><a href="#transport">交通</a></li>
+      <li><a href="#weather">天气</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ========== 主体 ========== -->
+<main class="main">
+
+  <!-- ====== 首页 Hero ====== -->
+  <section class="section" id="home">
+    <div class="hero">
+      <div class="hero-badge">TRAVEL GUIDE</div>
+      <h1 class="hero-city">福 州</h1>
+      <p class="hero-nickname">🏝️ 榕城 · 有福之州</p>
+      <p class="hero-slogan">一座泡在茉莉花茶里的千年榕城</p>
+      <div class="hero-weather">
+        <span style="font-size:44px;">🌤️</span>
+        <div>
+          <span class="hero-temp">28°</span>
+          <div>多云转晴 · 适宜出行</div>
+        </div>
+      </div>
+      <div class="today-recommend" id="todayRec"></div>
+      <div class="hero-scroll">⌄</div>
+    </div>
+  </section>
+
+  <!-- ====== 美食板块 ====== -->
+  <section class="section fade-up" id="food">
+    <div class="section-header">
+      <span class="section-badge">TASTE OF FUZHOU</span>
+      <span class="section-icon">🍜</span>
+      <h2 class="section-title">福州味道</h2>
+      <p class="section-subtitle">闽菜发源地，一口鱼丸一口汤，满城都是烟火气</p>
+      <div class="section-divider"></div>
+    </div>
+    <div class="card-grid" id="foodGrid"></div>
+  </section>
+
+  <!-- ====== 景点板块 ====== -->
+  <section class="section fade-up" id="spots">
+    <div class="section-header">
+      <span class="section-badge">MUST VISIT</span>
+      <span class="section-icon">🎯</span>
+      <h2 class="section-title">好玩的地方</h2>
+      <p class="section-subtitle">千年榕城，有山有海有老街 — 点击卡片查看详细攻略 👇</p>
+      <div class="section-divider"></div>
+    </div>
+    <div class="card-grid" id="spotGrid"></div>
+  </section>
+
+  <!-- ====== 路线板块 (新增重点) ====== -->
+  <section class="section fade-up" id="route">
+    <div class="section-header">
+      <span class="section-badge">ROUTE PLAN</span>
+      <span class="section-icon">🗺️</span>
+      <h2 class="section-title">一日游 · 详细路线</h2>
+      <p class="section-subtitle">从出发到结束，每一步都帮你规划好</p>
+      <div class="section-divider"></div>
+    </div>
+    <div id="routeMapContainer"></div>
+  </section>
+
+  <!-- ====== 交通板块 ====== -->
+  <section class="section fade-up" id="transport">
+    <div class="section-header">
+      <span class="section-badge">TRANSPORT</span>
+      <span class="section-icon">🚗</span>
+      <h2 class="section-title">景点间交通</h2>
+      <p class="section-subtitle">每个景点之间的出行方式与时间</p>
+      <div class="section-divider"></div>
+    </div>
+    <div class="card-grid" id="transGrid"></div>
+    <div id="routePlans"></div>
+  </section>
+
+  <!-- ====== 天气板块 ====== -->
+  <section class="section fade-up" id="weather">
+    <div class="section-header">
+      <span class="section-badge">WEATHER</span>
+      <span class="section-icon">🌤️</span>
+      <h2 class="section-title">未来天气 & 出行建议</h2>
+      <p class="section-subtitle">根据天气决定行程，玩得更尽兴</p>
+      <div class="section-divider"></div>
+    </div>
+    <div class="weather-grid" id="weatherGrid"></div>
+  </section>
+
+</main>
+
+<!-- ========== 页脚 ========== -->
+<footer class="footer">
+  <div class="footer-brand">🌿 福州旅游攻略 · 榕城漫游指南</div>
+  <p>数据仅供展示参考 · 有福之州，等你来逛 🚶‍♂️</p>
+</footer>
+
+<!-- ========== 回到顶部 ========== -->
+<button class="back-to-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+
+<!-- ========== 景点详情弹窗 ========== -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox" onclick="event.stopPropagation()">
+    <div class="modal-header" id="modalHeader"></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ========== JavaScript ========== -->
+<script>
+// ==========================================
+// 数据
+// ==========================================
+
+const foods = [
+  { name:"福州鱼丸", emoji:"🐟", price:"¥15-25", desc:"福州头号小吃名片。新鲜鲨鱼肉或鳗鱼肉打成的外皮，包裹猪肉馅心，一口咬下去汁水四溢，Q弹鲜美。", shops:["永和鱼丸(三坊七巷店)","大福星鱼丸","聚春园"], rating:4.7, platforms:{dianping:4.6,meituan:4.7} },
+  { name:"肉燕", emoji:"🥟", price:"¥12-20", desc:"「肉包肉」的奇妙小吃。猪肉反复捶打制成燕皮，再包入肉馅，形似馄饨但燕皮爽滑弹牙，汤头鲜香，福州独有。", shops:["同利肉燕(老铺)","老福州","安泰楼"], rating:4.8, platforms:{dianping:4.7,meituan:4.8} },
+  { name:"佛跳墙", emoji:"🍲", price:"¥128-688", desc:"闽菜头牌，国宴名菜。鲍鱼、海参、干贝等几十种名贵食材汇于一坛，文火慢炖十几个小时。揭盖时香气四溢。", shops:["聚春园(始创)","安泰楼","老福州酒楼"], rating:4.9, platforms:{dianping:4.8,meituan:4.9} },
+  { name:"锅边糊", emoji:"🥣", price:"¥8-15", desc:"福州人的早餐灵魂。米浆沿热锅边浇一圈，遇热凝固成薄片铲入汤中，配上虾米、蛤蜊、海蛎，汤鲜糊滑，一碗下肚整个人都精神了。", shops:["南后街锅边","老药洲街边摊","上下杭老店"], rating:4.5, platforms:{dianping:4.5,meituan:4.4} },
+  { name:"芋泥", emoji:"🍠", price:"¥10-18", desc:"福州甜品之王。福鼎槟榔芋蒸熟捣泥，拌入猪油和白糖，撒上芝麻红枣碎，趁热吃香甜绵密入口即化，宴席压轴甜品。", shops:["老福州","聚春园","三坊七巷甜品铺"], rating:4.6, platforms:{dianping:4.6,meituan:4.5} },
+  { name:"荔枝肉", emoji:"🍖", price:"¥28-48", desc:"经典福州酸甜口热菜。猪瘦肉剞十字花刀，炸后形似荔枝外壳，配上酸甜红汁，外酥里嫩。比糖醋里脊更讲究刀工。", shops:["老福州","安泰楼","聚春园"], rating:4.5, platforms:{dianping:4.4,meituan:4.5} },
+  { name:"海蛎煎", emoji:"🦪", price:"¥15-25", desc:"新鲜海蛎裹番薯粉浆煎到两面金黄，外脆里嫩。福州海蛎个头虽小但鲜味十足，蘸鱼露或甜辣酱，一口一个鲜。", shops:["上下杭老店","老药洲街","东街口夜市"], rating:4.4, platforms:{dianping:4.3,meituan:4.4} },
+  { name:"拌面+扁肉", emoji:"🍝", price:"¥10-18", desc:"福州黄金早餐搭档。花生酱拌面香气浓郁，扁肉皮薄馅嫩汤清味鲜。一套十几块，性价比之王。", shops:["尚干拌面扁肉","达明路小店","街边随处可见"], rating:4.3, platforms:{dianping:4.2,meituan:4.3} }
+];
+
+const spots = [
+  {
+    name:"三坊七巷", emoji:"🏘️",
+    desc:"福州的城市名片，中国里坊制度的活化石。三条坊七条巷，白墙黛瓦马鞍墙，走出了林则徐、严复、冰心、林徽因等无数名人。",
+    duration:"3-5 小时", ticket:"街区免费，部分名人故居 ¥15-30", rating:4.8,
+    platforms:{ctrip:4.7,mafengwo:4.8,dianping:4.7},
+    tips:"建议从南后街主入口进，一路逛到林则徐纪念馆。晚上灯亮了更美。",
+    // 详细攻略 (弹窗用)
+    detail:{
+      bestSeason:"全年皆宜，春秋最舒适（3-5月、10-11月）。春节期间有灯会，气氛最好。",
+      photoSpot:["南后街入口牌坊","林则徐纪念馆内庭院","水榭戏台","黄巷马鞍墙"],
+      nearbyFood:["永和鱼丸(鱼丸)","同利肉燕(肉燕)","木金肉丸","花生汤老铺"],
+      routeSuggestion:"南后街→文儒坊→安民巷→宫巷→吉庇巷→光禄坊→杨桥巷→郎官巷→塔巷→黄巷。全程约2公里。",
+      avoid:"周末和节假日人很多，建议工作日早上9点前去。不要只走主街，巷子深处才是精华。"
+    }
+  },
+  {
+    name:"鼓山", emoji:"⛰️",
+    desc:"福州城市绿肺，海拔925米。涌泉寺是闽刹之首，千年古刹香火旺盛。登顶可俯瞰福州全景和闽江入海口。",
+    duration:"半天", ticket:"涌泉寺 ¥40，缆车单程 ¥50", rating:4.6,
+    platforms:{ctrip:4.5,mafengwo:4.6,dianping:4.5},
+    tips:"缆车上山 + 步行下山是最佳组合，既省力又不错过沿途风景。",
+    detail:{
+      bestSeason:"春秋最佳，夏天山上凉快适合避暑。雨后初晴时云海很美。",
+      photoSpot:["涌泉寺大雄宝殿","望江亭（俯瞰福州全景）","十八景","喝水岩摩崖石刻"],
+      nearbyFood:["涌泉寺素斋（推荐素面、素鱼丸）","山脚农家菜馆"],
+      routeSuggestion:"缆车上山→涌泉寺→喝水岩→十八景→望江亭→古道步行下山（约40分钟）",
+      avoid:"节假日缆车排队较长（可能1小时+），建议早去。穿运动鞋，古道台阶较多。"
+    }
+  },
+  {
+    name:"福州西湖公园", emoji:"🌸",
+    desc:"1700多年历史的古典园林，福州人的市民公园。湖中有岛岛上有亭，春天桃花夏天荷花，四季景不同。",
+    duration:"1-2 小时", ticket:"免费", rating:4.4,
+    platforms:{ctrip:4.3,mafengwo:4.4,dianping:4.3},
+    tips:"就在市区，可以和左海公园一起逛。早上有老人打太极，很有生活气息。",
+    detail:{
+      bestSeason:"春天（3-4月桃花）和夏天（6-8月荷花）最美。",
+      photoSpot:["湖心岛","开化寺","荷亭","省博物院"],
+      nearbyFood:["西湖公园门口的鱼丸店","附近湖东路小吃街"],
+      routeSuggestion:"正门入→环湖步道→湖心岛→开化寺→荷亭→省博物院（一并游览）",
+      avoid:"免费公园周末人多，建议早上来。夏天注意防蚊。"
+    }
+  },
+  {
+    name:"上下杭", emoji:"🏮",
+    desc:"福州曾经的商贸中心，比三坊七巷更低调接地气。沿河老建筑改成咖啡馆书店文创店，晚上灯光倒映水面特别美。",
+    duration:"2-3 小时", ticket:"免费", rating:4.5,
+    platforms:{ctrip:4.4,mafengwo:4.5,dianping:4.5},
+    tips:"傍晚去最合适，先逛老街，天黑后看河边灯光。旁边有很多地道小吃。",
+    detail:{
+      bestSeason:"全年皆宜，傍晚时分最美。夏天晚上河边很凉快。",
+      photoSpot:["三通桥","永德会馆","陈氏宗祠","河边灯光夜景"],
+      nearbyFood:["耳聋伯元宵","锅边糊老店","海蛎煎摊","各种咖啡馆"],
+      routeSuggestion:"下杭路→三通桥→永德会馆→上杭路→陈氏宗祠→沿河步道",
+      avoid:"不要和三坊七巷同一天去（走路太多）。河边蚊子多，带驱蚊水。"
+    }
+  },
+  {
+    name:"烟台山", emoji:"🏛️",
+    desc:"新晋网红地标，五口通商时领事馆区，保留大量西洋老建筑，有「福州鼓浪屿」之称。咖啡馆餐厅买手店聚集，文艺范十足。",
+    duration:"2-3 小时", ticket:"免费（部分建筑参观收费）", rating:4.6,
+    platforms:{ctrip:4.5,mafengwo:4.7,dianping:4.6},
+    tips:"周末人很多，工作日去体验更好。山上咖啡馆视野很棒。",
+    detail:{
+      bestSeason:"春秋最佳，天气好时在山上咖啡馆坐一下午很舒服。",
+      photoSpot:["石厝教堂","爱国路2号","烟台山公园观景台","老洋房群","闽江View"],
+      nearbyFood:["山上网红咖啡馆（如Ridge）","山下学生街便宜小吃","烟台山餐厅"],
+      routeSuggestion:"公园正门→石厝教堂→爱国路老建筑→观景台→下山逛学生街",
+      avoid:"节假日人非常多，拍照要排队。建议工作日来或早上10点前到。"
+    }
+  },
+  {
+    name:"平潭岛", emoji:"🏖️",
+    desc:"福建第一大岛，离福州约2小时车程。蓝眼泪奇观（4-6月）、长江澳风车田、仙人井。海鲜便宜新鲜沙滩干净。",
+    duration:"1-2 天", ticket:"仙人井 ¥45，其他多数免费", rating:4.7,
+    platforms:{ctrip:4.6,mafengwo:4.8,dianping:4.5},
+    tips:"最佳季节4-6月看蓝眼泪。自驾最方便，也可从福州南坐高铁到平潭站。",
+    detail:{
+      bestSeason:"4-6月（蓝眼泪季节），7-9月（下海游泳）。蓝眼泪需晚上看，提前查预报。",
+      photoSpot:["长江澳风车田日落","仙人井","北部湾生态廊道","猴研岛"],
+      nearbyFood:["岛上现捞海鲜（推荐海蛎、石斑鱼）","时来运转（平潭小吃）","海鲜面"],
+      routeSuggestion:"Day1:福州→长江澳风车田→北部湾→龙凤头沙滩看蓝眼泪 | Day2:仙人井→猴研岛→返程",
+      avoid:"蓝眼泪不是每天都有，出发前查预报。夏天暴晒注意防晒。高铁票旺季提前买。"
+    }
+  },
+  {
+    name:"于山 · 乌山", emoji:"🌳",
+    desc:"福州「三山两塔」中的两山。于山有白塔乌山有乌塔，都在市中心，山不高但古迹众多，人少清静。",
+    duration:"1-2 小时", ticket:"免费", rating:4.2,
+    platforms:{ctrip:4.1,mafengwo:4.2,dianping:4.1},
+    tips:"两座山距离不远可以一起逛。适合喜欢历史文化的游客。",
+    detail:{
+      bestSeason:"全年皆宜，春秋最舒适。早上来最好，人少清静。",
+      photoSpot:["于山白塔","乌山乌塔","戚公祠","乌山摩崖石刻"],
+      nearbyFood:["附近东街口商圈众多餐厅","达明路美食街"],
+      routeSuggestion:"于山（白塔+戚公祠）→步行10分钟→乌山（乌塔+摩崖石刻）",
+      avoid:"山不高但台阶多，老人注意防滑。免费景点管理一般，不要期望太高。"
+    }
+  },
+  {
+    name:"福州国家森林公园", emoji:"🌲",
+    desc:"全国十大森林公园之一，千年古榕「榕树王」冠幅1300多平方米遮天蔽日。樱花园竹园鸟语林适合全家出游。",
+    duration:"半天", ticket:"免费（鸟语林 ¥25）", rating:4.4,
+    platforms:{ctrip:4.3,mafengwo:4.4,dianping:4.3},
+    tips:"门口公交直达。园区很大建议租自行车或坐观光车。春天樱花季最美。",
+    detail:{
+      bestSeason:"春天（樱花2-3月），秋天（11-12月红叶）。",
+      photoSpot:["榕树王（必打卡）","樱花园","竹林步道","龙潭瀑布"],
+      nearbyFood:["园区内小吃摊","出园后新店镇有土菜馆"],
+      routeSuggestion:"大门→榕树王→樱花园→竹园→龙潭→鸟语林→出园",
+      avoid:"园区超大走路很累，强烈建议租自行车或坐观光车。夏天蚊虫多。"
+    }
+  }
+];
+
+const transports = [
+  { from:"三坊七巷", to:"上下杭", options:[{mode:"🚶 步行",time:"约 15 分钟"},{mode:"🚇 地铁",time:"1号线 2站，约 10 分钟"},{mode:"🚕 打车",time:"约 8 分钟，¥12 左右"}] },
+  { from:"三坊七巷", to:"烟台山", options:[{mode:"🚇 地铁",time:"2号线转1号线，约 20 分钟"},{mode:"🚕 打车",time:"约 15 分钟，¥18 左右"},{mode:"🚌 公交",time:"约 35 分钟"}] },
+  { from:"三坊七巷", to:"鼓山", options:[{mode:"🚇 地铁+公交",time:"2号线到鼓山站转公交，约 40 分钟"},{mode:"🚕 打车",time:"约 25 分钟，¥35 左右"}] },
+  { from:"上下杭", to:"烟台山", options:[{mode:"🚶 步行",time:"走过解放大桥约 15 分钟"},{mode:"🚕 打车",time:"约 10 分钟，¥12 左右"}] },
+  { from:"福州市区", to:"平潭岛", options:[{mode:"🚄 高铁",time:"福州南→平潭，约 35 分钟"},{mode:"🚗 自驾",time:"约 2 小时，走渔平高速"},{mode:"🚌 大巴",time:"福州汽车北站出发，约 2.5 小时"}] },
+  { from:"西湖公园", to:"三坊七巷", options:[{mode:"🚶 步行",time:"约 15 分钟"},{mode:"🚌 公交",time:"约 10 分钟"},{mode:"🚕 打车",time:"约 8 分钟，¥10 左右"}] }
+];
+
+const weatherData = [
+  { day:"今天", icon:"🌤️", tempH:33, tempL:26, desc:"多云转晴", tip:"适合户外！三坊七巷+鼓山" },
+  { day:"明天", icon:"☀️", tempH:35, tempL:27, desc:"晴天", tip:"超适合平潭岛看海！注意防晒" },
+  { day:"周三", icon:"⛅", tempH:32, tempL:26, desc:"多云", tip:"市区漫步，三坊七巷+上下杭+烟台山" },
+  { day:"周四", icon:"🌧️", tempH:28, tempL:24, desc:"小雨转中雨", tip:"逛商场+吃美食+博物馆" },
+  { day:"周五", icon:"⛈️", tempH:29, tempL:24, desc:"雷阵雨", tip:"美食之旅！专攻老字号吃一天" },
+  { day:"周六", icon:"🌤️", tempH:31, tempL:25, desc:"阵雨转晴", tip:"下午放晴去森林公园看榕树王" },
+  { day:"周日", icon:"☀️", tempH:34, tempL:27, desc:"晴", tip:"鼓山登高+涌泉寺，俯瞰福州全城" }
+];
+
+// ==========================================
+// 工具函数
+// ==========================================
+function stars(r) {
+  const full = Math.floor(r), half = r - full >= 0.5;
+  let s = '';
+  for (let i=0;i<full;i++) s += '★';
+  if (half) s += '☆';
+  return s;
+}
+
+// ==========================================
+// 渲染美食
+// ==========================================
+document.getElementById('foodGrid').innerHTML = foods.map(f => {
+  let pb = '';
+  if (f.platforms.dianping) pb += `<span class="platform-badge dianping">⭐ 大众点评 ${f.platforms.dianping}</span>`;
+  if (f.platforms.meituan) pb += `<span class="platform-badge meituan">⭐ 美团 ${f.platforms.meituan}</span>`;
+  return `
+    <div class="card food-card">
+      <div class="food-header">
+        <div class="food-icon">${f.emoji}</div>
+        <div>
+          <div class="food-name">${f.name}</div>
+          <div class="food-price">${f.price} / 人</div>
+        </div>
+        <div style="margin-left:auto;text-align:right;">
+          <span class="stars">${stars(f.rating)}</span>
+          <span style="font-weight:700;color:#7c3aed;display:block;">${f.rating}</span>
+        </div>
+      </div>
+      <p class="food-desc">${f.desc}</p>
+      <div class="food-shop">🏪 ${f.shops.map(s=>'<span>'+s+'</span>').join('')}</div>
+      <div class="platform-ratings">${pb}</div>
+    </div>`;
+}).join('');
+
+// ==========================================
+// 渲染景点 (可点击)
+// ==========================================
+document.getElementById('spotGrid').innerHTML = spots.map((s,i) => {
+  let pb = '';
+  if (s.platforms.ctrip) pb += `<span class="platform-badge ctrip">🔵 携程 ${s.platforms.ctrip}</span>`;
+  if (s.platforms.mafengwo) pb += `<span class="platform-badge mafengwo">🟠 马蜂窝 ${s.platforms.mafengwo}</span>`;
+  if (s.platforms.dianping) pb += `<span class="platform-badge dianping">🔴 大众点评 ${s.platforms.dianping}</span>`;
+  return `
+    <div class="card spot-card clickable" onclick="openSpotDetail(${i})">
+      <div class="spot-header">
+        <div class="spot-icon">${s.emoji}</div>
+        <div>
+          <div class="spot-name">${s.name}</div>
+          <div class="spot-time">🕐 ${s.duration}</div>
+        </div>
+        <div style="margin-left:auto;text-align:right;">
+          <span class="stars">${stars(s.rating)}</span>
+          <span style="font-weight:700;color:#7c3aed;display:block;">${s.rating}</span>
+        </div>
+      </div>
+      <p class="spot-desc">${s.desc}</p>
+      <div class="spot-meta"><span>🎫 ${s.ticket}</span></div>
+      <p style="font-size:13px;color:#a78bfa;">💡 ${s.tips}</p>
+      <div class="platform-ratings">${pb}</div>
+      <div class="spot-click-hint">点击查看详细攻略 →</div>
+    </div>`;
+}).join('');
+
+// ==========================================
+// 渲染交通
+// ==========================================
+document.getElementById('transGrid').innerHTML = transports.map(t => `
+  <div class="card transport-card">
+    <div class="route">
+      <span class="route-from">${t.from}</span>
+      <span class="route-arrow">→</span>
+      <span class="route-to">${t.to}</span>
+    </div>
+    <div class="trans-options">
+      ${t.options.map(o => `<div class="trans-option"><span class="trans-mode">${o.mode}</span><span class="trans-time">${o.time}</span></div>`).join('')}
+    </div>
+  </div>`).join('');
+
+// ==========================================
+// 渲染路线推荐
+// ==========================================
+document.getElementById('routePlans').innerHTML = `
+  <div class="route-plans-wrapper">
+    <div class="route-plan-card">
+      <h3>🗺️ 两日深度游</h3>
+      <div class="plan-day">
+        <h4>📅 Day 1：古城文化线</h4>
+        <ul class="plan-steps">
+          <li>三坊七巷（逛古厝 + 永和鱼丸/同利肉燕早餐）→ 西湖公园 → 于山乌山 → 达明路夜市晚餐</li>
+        </ul>
+      </div>
+      <div class="plan-day">
+        <h4>📅 Day 2：山水风情线</h4>
+        <ul class="plan-steps">
+          <li>鼓山涌泉寺 → 下山午餐 → 上下杭 → 烟台山看日落 → 老药洲街海蛎煎+锅边糊</li>
+        </ul>
+      </div>
+    </div>
+    <div class="route-plan-card">
+      <h3>🏖️ 三日全景游（含平潭）</h3>
+      <div class="plan-day"><h4>Day 1：市区精华</h4><ul class="plan-steps"><li>三坊七巷 + 西湖 + 上下杭 + 烟台山夜景</li></ul></div>
+      <div class="plan-day"><h4>Day 2：登山观绿</h4><ul class="plan-steps"><li>鼓山登顶 → 森林公园看千年榕树王</li></ul></div>
+      <div class="plan-day"><h4>Day 3：海岛之旅</h4><ul class="plan-steps"><li>高铁去平潭岛！风车田、仙人井、蓝眼泪（季节限定）</li></ul></div>
+    </div>
+  </div>
+`;
+
+// ==========================================
+// 一日游详细路线图 (核心新功能)
+// ==========================================
+const routeMapData = {
+  title: "福州一日精华游",
+  subtitle: "从福州站出发，贯穿市区最精华的景点与美食，全程约10小时",
+  stops: [
+    {
+      time:"08:30", type:"start", num:"起", icon:"🚉",
+      title:"出发：福州火车站（或你住的酒店）",
+      desc:"建议住在鼓楼区/东街口附近，去哪都方便。早餐可在酒店附近吃一碗锅边糊或拌面扁肉唤醒味蕾。",
+      annotations:[
+        {type:"tip", text:"💡 住宿选鼓楼区/东街口商圈最方便"},
+        {type:"eat", text:"🍜 酒店附近吃锅边糊当早餐"}
+      ]
+    },
+    {
+      time:"09:00", type:"spot", num:"1", icon:"🏘️",
+      title:"第一站：三坊七巷",
+      desc:"从酒店出发步行或打车到三坊七巷（约10分钟）。上午人少，逛古厝最佳时机。重点看南后街、文儒坊、林则徐纪念馆。逛1.5-2小时。",
+      annotations:[
+        {type:"eat", text:"🐟 永和鱼丸 — 必吃！¥15"},
+        {type:"eat", text:"🥟 同利肉燕 — 老字号 ¥15"},
+        {type:"play", text:"📸 南后街牌坊打卡"},
+        {type:"play", text:"🏛️ 林则徐纪念馆"},
+        {type:"time-tag", text:"⏱️ 游玩约 2 小时"}
+      ]
+    },
+    {
+      time:"11:15", type:"trans", icon:"🚶",
+      title:"交通：步行前往西湖公园",
+      desc:"从三坊七巷北口出，沿湖滨路步行约15分钟到西湖公园。沿途经过福州老城区，可以感受市井生活。",
+      annotations:[
+        {type:"trans", text:"🚶 步行约 15 分钟"},
+        {type:"tip", text:"📱 导航搜「福州西湖公园」"}
+      ]
+    },
+    {
+      time:"11:30", type:"spot", num:"2", icon:"🌸",
+      title:"第二站：福州西湖公园",
+      desc:"免费公园，沿湖散步赏景，看开化寺、湖心岛。走一圈约45分钟，感受福州人的慢生活节奏。",
+      annotations:[
+        {type:"play", text:"🏝️ 湖心岛必去"},
+        {type:"play", text:"🏯 开化寺"},
+        {type:"time-tag", text:"⏱️ 游玩约 45 分钟"}
+      ]
+    },
+    {
+      time:"12:15", type:"trans", icon:"🚕",
+      title:"交通：打车前往安泰楼",
+      desc:"从西湖公园打车到安泰楼（约8分钟，¥10左右）。安泰楼是福州老字号酒楼，闽菜做得地道。",
+      annotations:[
+        {type:"trans", text:"🚕 打车约 8 分钟，¥10"},
+        {type:"tip", text:"📞 饭点人多建议提前一点到"}
+      ]
+    },
+    {
+      time:"12:30", type:"food", num:"🍽️", icon:"",
+      title:"午餐：安泰楼 · 正宗闽菜",
+      desc:"福州老字号，推荐：荔枝肉（¥38）、佛跳墙（小份¥128）、爆炒双脆、糟菜炒笋。人均约¥80。吃完午餐可以在附近休息一下。",
+      annotations:[
+        {type:"eat", text:"🍖 荔枝肉 ¥38 — 必点"},
+        {type:"eat", text:"🍲 佛跳墙 ¥128起"}
+      ]
+    },
+    {
+      time:"13:45", type:"trans", icon:"🚕",
+      title:"交通：打车前往上下杭",
+      desc:"从安泰楼打车到上下杭约10分钟（¥12）。或者坐地铁1号线2站到达道站下步行5分钟。",
+      annotations:[
+        {type:"trans", text:"🚕 打车约 10 分钟，¥12"},
+        {type:"trans", text:"🚇 地铁1号线 2站"}
+      ]
+    },
+    {
+      time:"14:00", type:"spot", num:"3", icon:"🏮",
+      title:"第三站：上下杭",
+      desc:"下午逛上下杭最舒服。沿河散步，看老建筑，逛文创店和咖啡馆。比三坊七巷安静，适合慢慢逛。约1.5-2小时。",
+      annotations:[
+        {type:"play", text:"📸 三通桥拍照"},
+        {type:"play", text:"🏛️ 永德会馆"},
+        {type:"eat", text:"☕ 河边咖啡馆坐坐"},
+        {type:"time-tag", text:"⏱️ 游玩约 1.5 小时"}
+      ]
+    },
+    {
+      time:"15:30", type:"trans", icon:"🚶",
+      title:"交通：步行穿过解放大桥",
+      desc:"从上下杭沿河边往东走，穿过解放大桥。桥上可以看闽江风光，步行约15分钟到烟台山脚下。",
+      annotations:[
+        {type:"trans", text:"🚶 步行约 15 分钟"},
+        {type:"play", text:"📸 解放大桥上看江景"}
+      ]
+    },
+    {
+      time:"15:45", type:"spot", num:"4", icon:"🏛️",
+      title:"第四站：烟台山",
+      desc:"福州「鼓浪屿」，老洋房群 + 网红咖啡馆 + 闽江View。建议找一家山上的咖啡馆坐下来喝一杯，看江景发呆。逛约2小时。",
+      annotations:[
+        {type:"play", text:"⛪ 石厝教堂拍照"},
+        {type:"eat", text:"☕ 山顶咖啡馆看江景"},
+        {type:"play", text:"📸 老洋房群"},
+        {type:"time-tag", text:"⏱️ 游玩约 2 小时"}
+      ]
+    },
+    {
+      time:"17:45", type:"trans", icon:"🚕",
+      title:"交通：前往老药洲街",
+      desc:"从烟台山打车到老药洲街约15分钟（¥18）。这里是福州地道小吃聚集地，晚餐在这里解决。",
+      annotations:[
+        {type:"trans", text:"🚕 打车约 15 分钟，¥18"}
+      ]
+    },
+    {
+      time:"18:00", type:"food", num:"🌙", icon:"",
+      title:"晚餐：老药洲街 · 福州小吃一条街",
+      desc:"福州最接地气的美食街！推荐：锅边糊、海蛎煎、芋泥、花生汤、捞化。人均¥30-50吃得超满足。以一碗热芋泥收尾，完美的一天！",
+      annotations:[
+        {type:"eat", text:"🦪 海蛎煎 ¥15"},
+        {type:"eat", text:"🥣 锅边糊 ¥10"},
+        {type:"eat", text:"🍠 热芋泥 ¥12 — 必吃甜品"}
+      ]
+    },
+    {
+      time:"19:30", type:"end", num:"终", icon:"🌙",
+      title:"结束：返回住处",
+      desc:"从老药洲街打车回酒店，结束充实的一天！总结：今天走了三坊七巷→西湖→上下杭→烟台山四大核心景点，吃了福州最经典的鱼丸、肉燕、荔枝肉、锅边糊、海蛎煎、芋泥。完美！🎉",
+      annotations:[
+        {type:"tip", text:"📊 全天步行约15000步，穿舒适的鞋"},
+        {type:"tip", text:"💰 人均花费约 ¥200-350（含吃+行+门票）"}
+      ]
+    }
+  ]
+};
+
+function renderRouteMap() {
+  const container = document.getElementById('routeMapContainer');
+  let html = `
+    <div class="route-map-section">
+      <div class="route-map-title">🗺️ ${routeMapData.title}</div>
+      <div class="route-map-subtitle">${routeMapData.subtitle}</div>
+      <div class="route-timeline">
+  `;
+
+  routeMapData.stops.forEach((stop, i) => {
+    // 连接器（trans类型用特殊样式）
+    if (stop.type === 'trans') {
+      html += `
+        <div class="timeline-connector">
+          <div class="connector-inner">
+            <span class="conn-icon">${stop.icon}</span>
+            <span class="conn-text"><strong>${stop.title}</strong> — ${stop.desc}</span>
+          </div>
+        </div>`;
+      return;
+    }
+
+    const dotClass = stop.type === 'start' ? 'start' : stop.type === 'end' ? 'end' : stop.type === 'food' ? 'food' : 'spot';
+    html += `
+      <div class="timeline-stop">
+        <div class="stop-dot ${dotClass}">${stop.num}</div>
+        <div class="stop-content">
+          <div class="stop-time">${stop.time}</div>
+          <div class="stop-title">${stop.icon ? stop.icon + ' ' : ''}${stop.title}</div>
+          <div class="stop-desc">${stop.desc}</div>
+          ${stop.annotations.length ? `
+            <div class="stop-annotations">
+              ${stop.annotations.map(a => `<span class="annotation-tag ${a.type}">${a.text}</span>`).join('')}
+            </div>
+          ` : ''}
+        </div>
+      </div>`;
+  });
+
+  html += `</div></div>`;
+  container.innerHTML = html;
+}
+renderRouteMap();
+
+// ==========================================
+// 渲染天气
+// ==========================================
+document.getElementById('weatherGrid').innerHTML = weatherData.map((w,i) => {
+  const isToday = i===0 ? 'today' : '';
+  return `
+    <div class="weather-card ${isToday}">
+      <div class="w-day">${w.day}</div>
+      <div class="w-icon">${w.icon}</div>
+      <div class="w-temp">${w.tempH}° <span style="font-size:14px;color:#a78bfa;">${w.tempL}°</span></div>
+      <div class="w-desc">${w.desc}</div>
+      <div class="w-tip">${w.tip}</div>
+    </div>`;
+}).join('');
+
+// ==========================================
+// 今日推荐
+// ==========================================
+const tw = weatherData[0];
+document.getElementById('todayRec').innerHTML = `
+  <h3>📌 今日推荐行程</h3>
+  <div class="rec-list">
+    <div class="rec-item"><span class="rec-emoji">🌤️</span><span class="rec-text">天气 <strong>${tw.desc}</strong>，${tw.tempH}°/${tw.tempL}°</span></div>
+    <div class="rec-item"><span class="rec-emoji">🏘️</span><span class="rec-text">上午 <strong>三坊七巷</strong> 逛古厝吃鱼丸</span></div>
+    <div class="rec-item"><span class="rec-emoji">🍲</span><span class="rec-text">中午 <strong>安泰楼</strong> 正宗闽菜</span></div>
+    <div class="rec-item"><span class="rec-emoji">🏮</span><span class="rec-text">下午 <strong>上下杭 + 烟台山</strong> 喝咖啡看日落</span></div>
+    <div class="rec-item"><span class="rec-emoji">🍜</span><span class="rec-text">晚餐 <strong>老药洲街</strong> 锅边糊+海蛎煎+芋泥</span></div>
+  </div>`;
+
+// ==========================================
+// 景点弹窗
+// ==========================================
+function openSpotDetail(index) {
+  const s = spots[index];
+  const d = s.detail;
+  document.getElementById('modalHeader').innerHTML = `
+    <span class="m-emoji">${s.emoji}</span>
+    <div class="m-title">${s.name}</div>
+    <div class="m-meta">🕐 建议游玩：${s.duration} ｜ 🎫 ${s.ticket}</div>
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+  `;
+  document.getElementById('modalBody').innerHTML = `
+    <h4>📖 景点介绍</h4>
+    <p>${s.desc}</p>
+
+    <h4>📊 各平台评分</h4>
+    <div class="m-info-grid">
+      ${s.platforms.ctrip ? `<div class="m-info-item"><span class="m-info-icon">🔵</span><div><div class="m-info-label">携程</div><div class="m-info-value">${s.platforms.ctrip} / 5.0</div></div></div>` : ''}
+      ${s.platforms.mafengwo ? `<div class="m-info-item"><span class="m-info-icon">🟠</span><div><div class="m-info-label">马蜂窝</div><div class="m-info-value">${s.platforms.mafengwo} / 5.0</div></div></div>` : ''}
+      ${s.platforms.dianping ? `<div class="m-info-item"><span class="m-info-icon">🔴</span><div><div class="m-info-label">大众点评</div><div class="m-info-value">${s.platforms.dianping} / 5.0</div></div></div>` : ''}
+    </div>
+
+    <h4>🌸 最佳游玩季节</h4>
+    <p>${d.bestSeason}</p>
+
+    <h4>📸 拍照打卡点</h4>
+    <p>${d.photoSpot.map(p => '📍 ' + p).join('<br>')}</p>
+
+    <h4>🍜 周边美食推荐</h4>
+    <p>${d.nearbyFood.map(f => '• ' + f).join('<br>')}</p>
+
+    <h4>🗺️ 推荐游览路线</h4>
+    <p>${d.routeSuggestion}</p>
+
+    <h4>⚠️ 避坑指南</h4>
+    <div class="m-tips"><strong>⚠️ 注意：</strong>${d.avoid}</div>
+
+    <p style="text-align:center;margin-top:20px;">
+      <span class="stars">${stars(s.rating)}</span>
+      <span style="font-weight:700;color:#7c3aed;font-size:18px;">${s.rating}</span>
+      <span style="color:#9ca3af;"> / 5.0 综合评分</span>
+    </p>
+  `;
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key==='Escape') closeModalDirect(); });
+
+// ==========================================
+// 导航交互
+// ==========================================
+function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+    document.querySelectorAll('.nav-links a').forEach(l=>l.classList.remove('active'));
+    link.classList.add('active');
+  });
+});
+
+// 滚动效果
+const navbar = document.getElementById('navbar');
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  // 导航阴影
+  navbar.classList.toggle('scrolled', scrollY > 20);
+  // 回到顶部显示
+  backTop.classList.toggle('visible', scrollY > 500);
+  // 导航高亮
+  let current = '';
+  document.querySelectorAll('.section').forEach(s => {
+    if (scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+  });
+  document.querySelectorAll('.nav-links a').forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href')==='#'+current) l.classList.add('active');
+  });
+});
+
+// 滚动入场动画
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
